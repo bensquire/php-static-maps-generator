@@ -1,4 +1,5 @@
 <?php
+namespace GoogleStaticMap;
 
 /**
  * @author Ben Squire <b.squire@gmail.com>
@@ -68,21 +69,21 @@ class GoogleStaticMap {
 
 	/**
 	 * Sets a single map marker instance, using either an array of parameters,
-	 * or by passing in  _GoogleStaticMapMarker object
+	 * or by passing in  _Marker object
 	 *
 	 * e.g:	$map->setMarker(array('color'=>'blue','size'=>'mid','longitude'=>-0.12437000,'latitude'=>51.59413528));
 	 *
-	 * @param GoogleStaticMapMarker $aParams
+	 * @param Marker $aParams
 	 * @return GoogleStaticMap
 	 */
 	public function setMarker($aParams) {
 
-		if ($aParams instanceof GoogleStaticMapMarker) {
+		if ($aParams instanceof Marker) {
 			$this->aMarkers[] = $aParams;
 		} elseif (is_array($aParams)) {
-			$this->aMarkers[] = new GoogleStaticMapMarker($aParams);
+			$this->aMarkers[] = new Marker($aParams);
 		} else {
-			throw new Exception('Unknown marker type passed in, not array nor object');
+			throw new \Exception('Unknown marker type passed in, not array nor object');
 		}
 
 		return $this;
@@ -104,11 +105,11 @@ class GoogleStaticMap {
 	 *
 	 * @param string $sKey API key, letters and/or numbers only
 	 * @return \GoogleStaticMap
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function setAPIKey($sKey) {
 		if (preg_match('/^[^a-zA-Z0-9]+$/i', $sKey)) {
-			throw new Exception('Invalid API key');
+			throw new \Exception('Invalid API key');
 		}
 
 		$this->sAPIKey = $sKey;
@@ -138,7 +139,7 @@ class GoogleStaticMap {
 	 */
 	public function setScale($iScale) {
 		if (!is_int($iScale) || !in_array($iScale, $this->aScales)) {
-			throw new Exception('Invalid map scale value: ' . $iScale);
+			throw new \Exception('Invalid map scale value: ' . $iScale);
 		}
 
 		$this->iScale = $iScale;
@@ -155,7 +156,7 @@ class GoogleStaticMap {
 	 */
 	public function setZoom($iZoom) {
 		if ($iZoom < 0 || $iZoom > 22) {
-			throw new Exception('Invalid Zoom amount requested, 0 to 22, acceptable');
+			throw new \Exception('Invalid Zoom amount requested, 0 to 22, acceptable');
 		}
 
 		$this->iZoom = (int) $iZoom;
@@ -173,7 +174,7 @@ class GoogleStaticMap {
 	 */
 	public function setMapType($sMapType) {
 		if (!in_array($sMapType, $this->aMapTypes)) {
-			throw new Exception('Unknown maptype requested.');
+			throw new \Exception('Unknown maptype requested.');
 		}
 
 		$this->sMapType = $sMapType;
@@ -192,7 +193,7 @@ class GoogleStaticMap {
 	public function setFormat($sFileFormat) {
 
 		if (!in_array($sFileFormat, $this->aFormatTypes)) {
-			throw new Exception('Unknown image format requested');
+			throw new \Exception('Unknown image format requested');
 		}
 
 		$this->sFileFormat = $sFileFormat;
@@ -210,11 +211,11 @@ class GoogleStaticMap {
 	public function setHeight($iHeight) {
 
 		if (!is_numeric($iHeight)) {
-			throw new Exception('Heights must be numeric');
+			throw new \Exception('Heights must be numeric');
 		}
 
 		if ($iHeight > 640) {
-			throw new Exception('Maximum height of 640px exceeded');
+			throw new \Exception('Maximum height of 640px exceeded');
 		}
 
 		$this->iHeight = (int) $iHeight;
@@ -232,11 +233,11 @@ class GoogleStaticMap {
 	public function setWidth($iWidth) {
 
 		if (!is_numeric($iWidth)) {
-			throw new Exception('Widths must be numeric');
+			throw new \Exception('Widths must be numeric');
 		}
 
 		if ($iWidth > 640) {
-			throw new Exception('Maximum width of 640px exceeded');
+			throw new \Exception('Maximum width of 640px exceeded');
 		}
 
 		$this->iWidth = (int) $iWidth;
@@ -254,7 +255,7 @@ class GoogleStaticMap {
 	 */
 	public function setLanguage($sLanguage) {
 		if (!in_array($sLanguage, $this->aLanguages)) {
-			throw new Exception('Unknown language requested');
+			throw new \Exception('Unknown language requested');
 		}
 
 		$this->sLanguage = $sLanguage;
@@ -262,37 +263,36 @@ class GoogleStaticMap {
 	}
 
 	/**
-	 * Create (or adds) the styling of single the map feature, pass in either an object of _GoogleStaticMapFeature or an array of parameters
+	 * Create (or adds) the styling of single the map feature, pass in either an object of _Feature or an array of parameters
 	 *
 	 * e.g:	$map->setFeatureStyling(array('feature'=>'all', 'element'=>'all', 'style'=>array('hue'=>'6095C6', 'saturation'=>-23, 'gamma'=>3.88, 'lightness'=>16)));
 	 *
-	 * @param GoogleStaticMapFeature $mFeatureStyling
+	 * @param Feature $mFeatureStyling
 	 * @return GoogleStaticMap
 	 */
 	public function setFeatureStyling($mFeatureStyling) {
-		if ($mFeatureStyling instanceof GoogleStaticMapFeature) {
+		if ($mFeatureStyling instanceof Feature) {
 			$this->aFeatureStyling[] = $mFeatureStyling;
 		} elseif (is_array($mFeatureStyling)) {
-			$this->aFeatureStyling[] = new GoogleStaticMapFeature($mFeatureStyling);
+			$this->aFeatureStyling[] = new Feature($mFeatureStyling);
 		} else {
-			throw new Exception('Unknown Feature Styling Passed');
+			throw new \Exception('Unknown Feature Styling Passed');
 		}
 
 		return $this;
 	}
 
-	/**
-	 * Creates the GoogleMapPath object used to draw points on the map. Either
-	 * pass an array of values through, or an GoogleStaticMapPath object.
-	 * 
-	 * @param mixed $mPath GoogleStaticMapPath or array to build object
-	 * @return \GoogleStaticMap
-	 */
+    /**
+     * Creates the GoogleMapPath object used to draw points on the map. Either pass an array of values through, or an Path object.
+     *
+     * @param $mPath
+     * @return $this
+     */
 	public function setMapPath($mPath) {
-		if ($mPath instanceof GoogleStaticMapPath) {
+		if ($mPath instanceof Path) {
 			$this->oPath = $mPath;
 		} elseif (is_array($mPath)) {
-			$this->oPath = new GoogleStaticMapPath($mPath);
+			$this->oPath = new Path($mPath);
 		}
 
 		return $this;
@@ -443,7 +443,7 @@ class GoogleStaticMap {
 		}
 
 
-		if ($this->oPath instanceof GoogleStaticMapPath) {
+		if ($this->oPath instanceof Path) {
 			$aURL[] = $this->oPath->build();
 		}
 
@@ -452,12 +452,10 @@ class GoogleStaticMap {
 		$sSrcTag = 'http' . (($this->bHTTPS === true) ? 's' : '') . '://' . $this->sGoogleURL . '?' . implode('&', $aURL);
 
 		if (!$this->validLength($sSrcTag)) {
-			throw new Exception('URL Exceeded maxiumum length of ' . $this::MAX_URL_LENGTH . ' characters.');
+			throw new \Exception('URL Exceeded maxiumum length of ' . $this::MAX_URL_LENGTH . ' characters.');
 		}
 
 		return $sSrcTag;
 	}
 
 }
-
-?>

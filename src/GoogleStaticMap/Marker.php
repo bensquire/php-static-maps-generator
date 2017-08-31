@@ -1,4 +1,5 @@
 <?php
+namespace GoogleStaticMap;
 
 /**
  * @author Ben Squire <b.squire@gmail.com>
@@ -11,9 +12,9 @@
  *
  * @see https://github.com/bensquire/php-static-maps-generator
  */
-class GoogleStaticMapMarker {
+class Marker {
 
-	const SEPERATOR = '|';
+	const SEPARATOR = '|';
 
 	protected $aMarkerSizes = array('tiny', 'mid', 'small');
 	protected $fLongitude = '';
@@ -58,7 +59,7 @@ class GoogleStaticMapMarker {
 	 * Set the markers Longitude
 	 *
 	 * @param float $fLongitude
-	 * @return GoogleStaticMapMarker
+	 * @return Marker
 	 */
 	public function setLongitude($fLongitude) {
 		$this->fLongitude = $fLongitude;
@@ -69,7 +70,7 @@ class GoogleStaticMapMarker {
 	 * Set the markers Latitude
 	 *
 	 * @param float $fLatitude
-	 * @return GoogleStaticMapMarker
+	 * @return Marker
 	 */
 	public function setLatitude($fLatitude) {
 		$this->fLatitude = $fLatitude;
@@ -80,7 +81,7 @@ class GoogleStaticMapMarker {
 	 * Set the label for this marker
 	 *
 	 * @param string $sLabel
-	 * @return GoogleStaticMapMarker
+	 * @return Marker
 	 */
 	public function setLabel($sLabel) {
 		$this->sLabel = $sLabel;
@@ -91,7 +92,7 @@ class GoogleStaticMapMarker {
 	 * Set the color for this marker
 	 *
 	 * @param string $sColor
-	 * @return GoogleStaticMapMarker
+	 * @return Marker
 	 */
 	public function setColor($sColor) {
 		$this->sColor = $sColor;
@@ -102,7 +103,7 @@ class GoogleStaticMapMarker {
 	 * Set the size of the marker
 	 *
 	 * @param string $iSize
-	 * @return GoogleStaticMapMarker
+	 * @return Marker
 	 */
 	public function setSize($iSize) {
 		if ((in_array($iSize, $this->aMarkerSizes))) {
@@ -164,12 +165,10 @@ class GoogleStaticMapMarker {
 	 */
 	public function build() {
 		return 'markers=' .
-				((!empty($this->sColor)) ? 'color:' . urlencode($this->sColor . $this::SEPERATOR) : '') .
-				((!empty($this->sLabel)) ? 'label:' . urlencode($this->sLabel . $this::SEPERATOR) : '') .
-				((!empty($this->sSize)) ? 'size:' . urlencode($this->sSize . $this::SEPERATOR) : '') .
+				((!empty($this->sColor)) ? 'color:' . urlencode($this->sColor . $this::SEPARATOR) : '') .
+				((!empty($this->sLabel)) ? 'label:' . urlencode($this->sLabel . $this::SEPARATOR) : '') .
+				((!empty($this->sSize)) ? 'size:' . urlencode($this->sSize . $this::SEPARATOR) : '') .
 				$this->fLatitude . ',' . $this->fLongitude;
 	}
 
 }
-
-?>

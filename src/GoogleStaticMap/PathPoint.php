@@ -1,4 +1,5 @@
 <?php
+namespace GoogleStaticMap;
 
 /**
  * @author Ben Squire <b.squire@gmail.com>
@@ -11,7 +12,7 @@
  *
  * @see https://github.com/bensquire/php-static-maps-generator
  */
-class GoogleStaticMapPathPoint {
+class PathPoint {
 
 	protected $fLongitude = null;
 	protected $fLatitude = null;
@@ -25,11 +26,11 @@ class GoogleStaticMapPathPoint {
 	 * Set the longitude of the map point.
 	 *
 	 * @param float $fLongitude
-	 * @return \GoogleStaticMapPathPoint
+	 * @return \GoogleStaticMap\PathPoint
 	 */
 	public function setLongitude($fLongitude) {
 		if (!is_numeric($fLongitude)) {
-			throw new Exception('Invalid longitude value.');
+			throw new \Exception('Invalid longitude value.');
 		}
 
 		$this->fLongitude = (float) $fLongitude;
@@ -40,11 +41,11 @@ class GoogleStaticMapPathPoint {
 	 * Set the Latitude of the map point.
 	 *
 	 * @param float $fLatitude
-	 * @return \GoogleStaticMapPathPoint
+	 * @return \GoogleStaticMap\PathPoint
 	 */
 	public function setLatitude($fLatitude) {
 		if (!is_numeric($fLatitude)) {
-			throw new Exception('Invalid latitude value.');
+			throw new \Exception('Invalid latitude value.');
 		}
 
 		$this->fLatitude = (float) $fLatitude;
@@ -55,12 +56,12 @@ class GoogleStaticMapPathPoint {
 	 * Set a string location of the map point.
 	 *
 	 * @param string $sLocation
-	 * @return \GoogleStaticMapPathPoint
-	 * @throws Exception
+	 * @return \GoogleStaticMap\PathPoint
+	 * @throws \Exception
 	 */
 	public function setLocation($sLocation) {
 		if (strlen($sLocation) === 0) {
-			throw new Exception('No string location provided...');
+			throw new \Exception('No string location provided...');
 		}
 
 		$this->sLocation = (string) $sLocation;
@@ -119,5 +120,3 @@ class GoogleStaticMapPathPoint {
 	}
 
 }
-
-?>

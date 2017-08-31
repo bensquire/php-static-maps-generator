@@ -1,4 +1,5 @@
 <?php
+namespace GoogleStaticMap;
 
 /**
  * @author Ben Squire <b.squire@gmail.com>
@@ -13,9 +14,9 @@
  * @todo https://developers.google.com/maps/documentation/staticmaps/#EncodedPolylines
  * @todo https://developers.google.com/maps/documentation/staticmaps/#Viewports
  */
-class GoogleStaticMapPath {
+class Path {
 
-	const SEPERATOR = '|';
+	const SEPARATOR = '|';
 
 	protected $aPoints = array();
 	protected $aAcceptableColors = array(
@@ -56,12 +57,12 @@ class GoogleStaticMapPath {
 	 * Set the weight of the map path line in px
 	 *
 	 * @param int $iWeight The width of the map path line
-	 * @return \GoogleStaticMapPathStyling
-	 * @throws Exception
+	 * @return \PathStyling
+	 * @throws \Exception
 	 */
 	public function setWeight($iWeight) {
 		if (!preg_match('/^([0-9])+$/', $iWeight)) {
-			throw new Exception('Only integers allowed');
+			throw new \Exception('Only integers allowed');
 		}
 
 		$this->iWeight = (int) $iWeight;
@@ -73,14 +74,14 @@ class GoogleStaticMapPath {
 	 * listed color array.
 	 *
 	 * @param string $sColor
-	 * @return \GoogleStaticMapPathStyling
-	 * @throws Exception
+	 * @return \PathStyling
+	 * @throws \Exception
 	 */
 	public function setColor($sColor) {
 		$sColor = strtolower($sColor);
 
 		if (!preg_match('/^0x[0-9A-F]{6,8}/', $sColor) && !in_array($sColor, $this->aAcceptableColors)) {
-			throw new Exception('Invalid Color, 24/32bit (0x00000000) or string: ' . $sColor);
+			throw new \Exception('Invalid Color, 24/32bit (0x00000000) or string: ' . $sColor);
 		}
 
 		$this->sColor = $sColor;
@@ -92,14 +93,14 @@ class GoogleStaticMapPath {
 	 * become visible).
 	 *
 	 * @param string $sFillColor
-	 * @return \GoogleStaticMapPathStyling
-	 * @throws Exception
+	 * @return \PathStyling
+	 * @throws \Exception
 	 */
 	public function setFillColor($sFillColor) {
 		//fillcolor (24bit or 32bit color value) indicates its a closed loop path
 
 		if (!preg_match('/^0x[0-9A-Fa-f]{6,8}/', $sFillColor)) {
-			throw new Exception('Invalid Fill Color, 24/32bit (0x00000000) or string');
+			throw new \Exception('Invalid Fill Color, 24/32bit (0x00000000) or string');
 		}
 
 		$this->sFillColor = $sFillColor;
@@ -134,27 +135,27 @@ class GoogleStaticMapPath {
 	}
 
 	/**
-	 * Creates the points in the Map Path, either pass a GoogleStaticMapPathPoint
-	 * object, an array of GoogleStaticMapPathPoint objects or an array of
-	 * GoogleStaticMapPathPoint constructor values
+	 * Creates the points in the Map Path, either pass a PathPoint
+	 * object, an array of PathPoint objects or an array of
+	 * PathPoint constructor values
 	 * 
-	 * @param mixed $mPoints Array or GoogleStaticMapPathPoint object
-	 * @return \GoogleStaticMapPath
-	 * @throws Exception
+	 * @param mixed $mPoints Array or PathPoint object
+	 * @return \GoogleStaticMap\Path
+	 * @throws \Exception
 	 */
 	public function setPoint($mPoints) {
 		if (is_array($mPoints) && count($mPoints) > 0) {
 			foreach ($mPoints AS $mPoint) {
-				if ($mPoints instanceof GoogleStaticMapPathPoint) {
+				if ($mPoints instanceof PathPoint) {
 					$this->aPoints[] = $mPoint;
 				} elseif (is_array($mPoint)) {
-					$this->aPoints[] = new GoogleStaticMapPathPoint($mPoint);
+					$this->aPoints[] = new PathPoint($mPoint);
 				}
 			}
-		} elseif ($mPoints instanceof GoogleStaticMapPathPoint) {
+		} elseif ($mPoints instanceof PathPoint) {
 			$this->aPoints[] = $mPoints;
 		} else {
-			throw new Exception('Invalid Map Path Point');
+			throw new \Exception('Invalid Map Path Point');
 		}
 
 		return $this;
@@ -189,12 +190,10 @@ class GoogleStaticMapPath {
 				$aUrl[] = $aPoint->build();
 			}
 
-			$sPath .= implode($this::SEPERATOR, $aUrl);
+			$sPath .= implode($this::SEPARATOR, $aUrl);
 		}
 
 		return ((strlen($sPath) > 0) ? 'path=' . $sPath : '');
 	}
 
 }
-
-?>
