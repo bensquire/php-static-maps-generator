@@ -1,4 +1,5 @@
 <?php
+
 namespace GoogleStaticMap;
 
 /**
@@ -52,7 +53,7 @@ class Marker
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->buildMarker();
     }
@@ -145,7 +146,7 @@ class Marker
      *
      * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->sLabel;
     }
@@ -155,7 +156,7 @@ class Marker
      *
      * @return string
      */
-    public function getColor()
+    public function getColor(): string
     {
         return $this->sColor;
     }
@@ -165,7 +166,7 @@ class Marker
      *
      * @return string
      */
-    public function getSize()
+    public function getSize(): string
     {
         return $this->sSize;
     }
@@ -175,12 +176,12 @@ class Marker
      *
      * @return string
      */
-    public function build()
+    public function build(): string
     {
         return 'markers=' .
-                ((!empty($this->sColor)) ? 'color:' . urlencode($this->sColor . $this::SEPARATOR) : '') .
-                ((!empty($this->sLabel)) ? 'label:' . urlencode($this->sLabel . $this::SEPARATOR) : '') .
-                ((!empty($this->sSize)) ? 'size:' . urlencode($this->sSize . $this::SEPARATOR) : '') .
-                $this->fLatitude . ',' . $this->fLongitude;
+            ((!empty($this->sColor)) ? 'color:' . urlencode($this->sColor . $this::SEPARATOR) : '') .
+            ((!empty($this->sLabel)) ? 'label:' . urlencode($this->sLabel . $this::SEPARATOR) : '') .
+            ((!empty($this->sSize)) ? 'size:' . urlencode($this->sSize . $this::SEPARATOR) : '') .
+            $this->fLatitude . ',' . $this->fLongitude;
     }
 }

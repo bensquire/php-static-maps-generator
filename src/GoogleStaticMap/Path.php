@@ -124,7 +124,7 @@ class Path
      *
      * @return string
      */
-    public function getFillColor()
+    public function getFillColor(): string
     {
         return $this->sFillColor;
     }
@@ -134,7 +134,7 @@ class Path
      *
      * @return string
      */
-    public function getColor()
+    public function getColor(): string
     {
         return $this->sColor;
     }
@@ -172,7 +172,7 @@ class Path
      *
      * @return string
      */
-    public function build()
+    public function build(): string
     {
         $sPath = '';
 

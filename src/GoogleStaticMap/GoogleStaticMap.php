@@ -37,7 +37,7 @@ class GoogleStaticMap
     protected $aFormatTypes = ['png', 'png8', 'png32', 'gif', 'jpg', 'jpg-baseline'];
     protected $aMapTypes = ['roadmap', 'satellite', 'hybrid', 'terrain'];
     protected $aScales = [1, 2, 4]; //4 is business only
-    protected $bHTTPS = false;
+    protected $isHttps = false;
     protected $sAPIKey = null;  //TODO Finishing Adding
     protected $mCenter = null;  //{latitude,longitude} or ('city hall, new york, ny')
     protected $iZoom = 10;
@@ -97,7 +97,7 @@ class GoogleStaticMap
      */
     public function setHttps($bHTTPs)
     {
-        $this->bHTTPS = (bool) $bHTTPs;
+        $this->isHttps = (bool) $bHTTPs;
         return $this;
     }
 
@@ -342,7 +342,7 @@ class GoogleStaticMap
      *
      * @return string
      */
-    public function getMapType()
+    public function getMapType(): string
     {
         return $this->sMapType;
     }
@@ -354,7 +354,7 @@ class GoogleStaticMap
      *
      * @return string
      */
-    public function getFormat()
+    public function getFormat(): string
     {
         return $this->aFormatTypes;
     }
@@ -390,7 +390,7 @@ class GoogleStaticMap
      *
      * @return string
      */
-    public function getLanguage()
+    public function getLanguage(): string
     {
         return $this->sLanguage;
     }
@@ -424,7 +424,7 @@ class GoogleStaticMap
      * @return string
      * @throws \Exception
      */
-    public function buildSource()
+    public function buildSource(): string
     {
         $aURL = [];
 
@@ -460,7 +460,7 @@ class GoogleStaticMap
 
         $aURL[] = 'sensor=' . (($this->bSensor) ? 'true' : 'false');
 
-        $sSrcTag = 'http' . (($this->bHTTPS === true) ? 's' : '') . '://' . $this->sGoogleURL . '?' . implode('&', $aURL);
+        $sSrcTag = 'http' . (($this->isHttps) ? 's' : '') . '://' . $this->sGoogleURL . '?' . implode('&', $aURL);
 
         if (!$this->validLength($sSrcTag)) {
             throw new \Exception('URL Exceeded maxiumum length of ' . $this::MAX_URL_LENGTH . ' characters.');

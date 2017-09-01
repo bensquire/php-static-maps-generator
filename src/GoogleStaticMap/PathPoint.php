@@ -98,7 +98,7 @@ class PathPoint
      *
      * @return string
      */
-    public function getLocation()
+    public function getLocation(): string
     {
         return $this->sLocation;
     }
@@ -108,7 +108,7 @@ class PathPoint
      *
      * @return string
      */
-    protected function combineCoordinates()
+    protected function combineCoordinates(): string
     {
         return $this->fLatitude . ',' . $this->fLongitude;
     }
@@ -118,7 +118,7 @@ class PathPoint
      *
      * @return string
      */
-    public function build()
+    public function build(): string
     {
         if (strlen($this->fLongitude) > 0 && strlen($this->fLatitude) > 0) {
             return $this->combineCoordinates();
