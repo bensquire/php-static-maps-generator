@@ -17,138 +17,141 @@ class FeatureStyling
 {
     public const SEPARATOR = '|';
 
-    protected $fGamma = null;
-    protected $fLightness = null;
-    protected $fSaturation = null;
-    protected $fHue = null;
-    protected $bVisible = true;
-    protected $bInvertLightness = false;
+    protected $gamma = null;
+    protected $lightness = null;
+    protected $saturation = null;
+    protected $hue = null;
+    protected $isVisible = true;
+    protected $invertLightness = false;
 
-    public function __construct($aParams = [])
+    public function __construct($params = [])
     {
-        if (isset($aParams['gamma'])) {
-            $this->setGamma($aParams['gamma']);
+        if (isset($params['gamma'])) {
+            $this->setGamma($params['gamma']);
         }
 
-        if (isset($aParams['lightness'])) {
-            $this->setLightness($aParams['lightness']);
+        if (isset($params['lightness'])) {
+            $this->setLightness($params['lightness']);
         }
 
-        if (isset($aParams['saturation'])) {
-            $this->setSaturation($aParams['saturation']);
+        if (isset($params['saturation'])) {
+            $this->setSaturation($params['saturation']);
         }
 
-        if (isset($aParams['hue'])) {
-            $this->setHue($aParams['hue']);
+        if (isset($params['hue'])) {
+            $this->setHue($params['hue']);
         }
 
-        if (isset($aParams['invert_lightness'])) {
-            $this->setInvertLightness($aParams['invert_lightness']);
+        if (isset($params['invert_lightness'])) {
+            $this->setInvertLightness($params['invert_lightness']);
         }
 
-        if (isset($aParams['visibility'])) {
-            $this->setVisibility($aParams['visibility']);
+        if (isset($params['visibility'])) {
+            $this->setVisibility($params['visibility']);
         }
     }
 
     /**
      * Sets the gamma value of the elements styling
      *
-     * @param $fGamma
+     * @param $gamma
      * @return $this
      * @throws \Exception
      */
-    public function setGamma($fGamma)
+    public function setGamma(float $gamma)
     {
-        if (!is_float($fGamma) || $fGamma < 0.01 || $fGamma > 10.0) {
-            throw new \Exception('Invalid Gamma Styling Paramater Passed ' . $fGamma);
+        if ($gamma < 0.01 || $gamma > 10.0) {
+            throw new \Exception('Invalid Gamma Styling Paramater Passed ' . $gamma);
         }
 
-        $this->fGamma = $fGamma;
+        $this->gamma = $gamma;
         return $this;
     }
 
     /**
      * Sets the lightness value of the elements styling
      *
-     * @param $iLightness
+     * @param $lightness
      * @return $this
      * @throws \Exception
      */
-    public function setLightness($iLightness)
+    public function setLightness(int $lightness)
     {
-        if (!is_int($iLightness) || $iLightness > 100 || $iLightness < -100) {
-            throw new \Exception('Invalid Lightness Styling Paramater Passed ' . $iLightness);
+        if ($lightness > 100 || $lightness < -100) {
+            throw new \Exception('Invalid Lightness Styling Paramater Passed ' . $lightness);
         }
 
-        $this->fLightness = $iLightness;
+        $this->lightness = $lightness;
         return $this;
     }
 
     /**
      * Sets the saturation of the elements styling
      *
-     * @param $iSaturation
+     * @param $saturation
      * @return $this
      * @throws \Exception
      */
-    public function setSaturation($iSaturation)
+    public function setSaturation(int $saturation)
     {
-        if (!is_int($iSaturation) || $iSaturation > 100 || $iSaturation < -100) {
-            throw new \Exception('Invalid Saturation Styling Paramater Passed ' . $iSaturation);
+        if ($saturation > 100 || $saturation < -100) {
+            throw new \Exception('Invalid Saturation Styling Paramater Passed ' . $saturation);
         }
 
-        $this->fSaturation = $iSaturation;
+        $this->saturation = $saturation;
         return $this;
     }
 
     /**
      * Sets the RGB colour of the elements styling. Note: it is used for colour only, not lightness or saturation.
      *
-     * @param $sHue
+     * @param $hue
      * @return $this
      * @throws \Exception
      */
-    public function setHue($sHue)
+    public function setHue(string $hue)
     {
-        $sHue = ltrim($sHue, '#');
+        $hue = ltrim($hue, '#');
 
-        if (!preg_match('/^[0-9A-Fa-f]{3,6}/', $sHue)) {
-            throw new \Exception('Invalid Hue (RGB) format: ' . $sHue);
+        if (!preg_match('/^[0-9A-Fa-f]{3,6}/', $hue)) {
+            throw new \Exception('Invalid Hue (RGB) format: ' . $hue);
         }
 
-        $this->fHue = $sHue;
+        $this->hue = $hue;
         return $this;
     }
 
     /**
      * Invert the lightness of the elements styling.
      *
-     * @param $bInvertLightness
+     * @param $invertLightness
      * @return $this
      */
-    public function setInvertLightness($bInvertLightness)
+    public function setInvertLightness(bool $invertLightness)
     {
-        $this->bInvertLightness = ($bInvertLightness == true);
+        $this->invertLightness = ($invertLightness === true);
         return $this;
     }
 
     /**
      * Determines if an element should be visible, or simplified (complexity decided by google).
      *
-     * @param $mVisibility
+     * @param $visibility
      * @return $this
      */
-    public function setVisibility($mVisibility)
+    public function setVisibility($visibility)
     {
-        if ($mVisibility == true || $mVisibility == 'on') {
-            $this->bVisible = 'on';
-        } elseif ($mVisibility == false || $mVisibility == 'off') {
-            $this->bVisible = 'off';
-        } else {
-            $this->bVisible = 'simplified';
+        if ($visibility === true || $visibility === 'on') {
+            $this->isVisible = 'on';
+            return $this;
         }
 
+        if ($visibility === false || $visibility === 'off') {
+            $this->isVisible = 'off';
+            return $this;
+        }
+
+        $this->isVisible = 'simplified';
         return $this;
     }
 
@@ -157,39 +160,39 @@ class FeatureStyling
      *
      * @return float
      */
-    public function getGamma()
+    public function getGamma(): float
     {
-        return $this->fGamma;
+        return $this->gamma;
     }
 
     /**
      * Returns the elements lightness value
      *
-     * @return float
+     * @return int
      */
-    public function getLightness()
+    public function getLightness(): int
     {
-        return $this->fLightness;
+        return $this->lightness;
     }
 
     /**
      * Returns the elements saturation value
      *
-     * @return float
+     * @return int
      */
-    public function getSaturation()
+    public function getSaturation(): int
     {
-        return $this->fSaturation;
+        return $this->saturation;
     }
 
     /**
      * Returns the elements hue value
      *
-     * @return float
+     * @return string
      */
-    public function getHue()
+    public function getHue(): string
     {
-        return $this->fHue;
+        return $this->hue;
     }
 
     /**
@@ -197,19 +200,19 @@ class FeatureStyling
      *
      * @return boolean
      */
-    public function getInvertLightness()
+    public function getInvertLightness(): bool
     {
-        return $this->bInvertLightness;
+        return $this->invertLightness;
     }
 
     /**
      * Returns the visibility status of the element
      *
-     * @return string
+     * @return bool
      */
-    public function getVisibility()
+    public function getVisibility(): bool
     {
-        return $this->bVisible;
+        return $this->isVisible;
     }
 
     /**
@@ -217,34 +220,34 @@ class FeatureStyling
      *
      * @return string
      */
-    public function build()
+    public function build(): string
     {
-        $aUrl = [];
+        $url = [];
 
-        if (!empty($this->fGamma)) {
-            $aUrl[] = 'gamma:' . $this->fGamma;
+        if (!empty($this->gamma)) {
+            $url[] = 'gamma:' . $this->gamma;
         }
 
-        if (!empty($this->fLightness)) {
-            $aUrl[] = 'lightness:' . $this->fLightness;
+        if (!empty($this->lightness)) {
+            $url[] = 'lightness:' . $this->lightness;
         }
 
-        if (!empty($this->fSaturation)) {
-            $aUrl[] = 'saturation:' . $this->fSaturation;
+        if (!empty($this->saturation)) {
+            $url[] = 'saturation:' . $this->saturation;
         }
 
-        if (!empty($this->fHue)) {
-            $aUrl[] = 'hue:0x' . $this->fHue;
+        if (!empty($this->hue)) {
+            $url[] = 'hue:0x' . $this->hue;
         }
 
-        if ($this->bVisible !== true) {
-            $aUrl[] = 'visibility:false';
+        if ($this->isVisible !== true) {
+            $url[] = 'visibility:false';
         }
 
-        if ($this->bInvertLightness !== false) {
-            $aUrl[] = 'inverse_lightness:true';
+        if ($this->invertLightness !== false) {
+            $url[] = 'inverse_lightness:true';
         }
 
-        return implode($this::SEPARATOR, $aUrl);
+        return implode($this::SEPARATOR, $url);
     }
 }

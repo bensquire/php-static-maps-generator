@@ -22,7 +22,7 @@
         "wiki": "https://github.com/bensquire/php-static-maps-generator/wiki"
     },
     "require": {
-        "php": ">=7.0.0",
+        "php": ">=7.1.0",
         "ext-hash": "*"
     },
     "require-dev": {

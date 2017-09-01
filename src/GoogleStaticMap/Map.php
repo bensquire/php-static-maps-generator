@@ -28,35 +28,31 @@ namespace GoogleStaticMap;
  * @example examples/example5.php
  * @example examples/example6.php
  */
-class GoogleStaticMap
+class Map
 {
     public const MAX_URL_LENGTH = 2048;
 
-    protected $sGoogleURL = 'maps.google.com/maps/api/staticmap';
-    protected $aLanguages = ['eu', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'el', 'en', 'en-AU', 'en-GB', 'es', 'eu', 'fa', 'fi', 'fil', 'fr', 'gl', 'gu', 'hi', 'hr', 'hu', 'id', 'it', 'iw', 'ja', 'kn', 'ko', 'lt', 'lv', 'ml', 'mr', 'nl', 'nn', 'no', 'or', 'pl', 'pt', 'pt-BR', 'pt-PT', 'rm', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tl', 'ta', 'te', 'th', 'tr', 'uk', 'vi', 'zh-CN', 'zh-TW'];
-    protected $aFormatTypes = ['png', 'png8', 'png32', 'gif', 'jpg', 'jpg-baseline'];
-    protected $aMapTypes = ['roadmap', 'satellite', 'hybrid', 'terrain'];
-    protected $aScales = [1, 2, 4]; //4 is business only
+    protected $googleUrl = 'maps.google.com/maps/api/staticmap';
+    protected $validLanguages = ['eu', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'el', 'en', 'en-AU', 'en-GB', 'es', 'eu', 'fa', 'fi', 'fil', 'fr', 'gl', 'gu', 'hi', 'hr', 'hu', 'id', 'it', 'iw', 'ja', 'kn', 'ko', 'lt', 'lv', 'ml', 'mr', 'nl', 'nn', 'no', 'or', 'pl', 'pt', 'pt-BR', 'pt-PT', 'rm', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tl', 'ta', 'te', 'th', 'tr', 'uk', 'vi', 'zh-CN', 'zh-TW'];
+    protected $validFormats = ['png', 'png8', 'png32', 'gif', 'jpg', 'jpg-baseline'];
+    protected $validMapTypes = ['roadmap', 'satellite', 'hybrid', 'terrain'];
+    protected $validScales = [1, 2, 4]; //4 is business only
     protected $isHttps = false;
-    protected $sAPIKey = null;  //TODO Finishing Adding
-    protected $mCenter = null;  //{latitude,longitude} or ('city hall, new york, ny')
-    protected $iZoom = 10;
-    protected $iHeight = 200;
-    protected $iWidth = 200;
-    protected $iScale = 1;
-    protected $sFileFormat = 'png';
-    protected $sMapType = 'roadmap'; //See $map_types;
-    protected $sLanguage = 'en-GB';
-    protected $sRegion = '';   //TODO Add
-    protected $aMarkers = [];
-    protected $oPath = [];   //TODO Add
-    protected $aVisible = [];  //TODO Add
-    protected $aFeatureStyling = [];
-    protected $bSensor = false;
-
-    public function __construct()
-    {
-    }
+    protected $apiKey = null;  //TODO Finishing Adding
+    protected $centre = null;  //{latitude,longitude} or ('city hall, new york, ny')
+    protected $zoomLevel = 10;
+    protected $height = 200;
+    protected $width = 200;
+    protected $scale = 1;
+    protected $format = 'png';
+    protected $mapType = 'roadmap'; //See $map_types;
+    protected $languageCode = 'en-GB';
+    protected $region = '';   //TODO Add
+    protected $markers = [];
+    protected $path = [];   //TODO Add
+    protected $visible = [];  //TODO Add
+    protected $featureStyling = [];
+    protected $isSensor = false;
 
     /**
      * Magic Method to output final image source.
@@ -79,9 +75,9 @@ class GoogleStaticMap
     public function setMarker($aParams)
     {
         if ($aParams instanceof Marker) {
-            $this->aMarkers[] = $aParams;
+            $this->markers[] = $aParams;
         } elseif (is_array($aParams)) {
-            $this->aMarkers[] = new Marker($aParams);
+            $this->markers[] = new Marker($aParams);
         } else {
             throw new \Exception('Unknown marker type passed in, not array nor object');
         }
@@ -92,12 +88,12 @@ class GoogleStaticMap
     /**
      * Sets the whether we should use https to retrieve the map
      *
-     * @param bool $bHTTPs
-     * @return GoogleStaticMap
+     * @param bool $isHttps
+     * @return $this
      */
-    public function setHttps($bHTTPs)
+    public function setHttps(bool $isHttps)
     {
-        $this->isHttps = (bool) $bHTTPs;
+        $this->isHttps = $isHttps;
         return $this;
     }
 
@@ -108,156 +104,146 @@ class GoogleStaticMap
      * @return $this
      * @throws \Exception
      */
-    public function setAPIKey($sKey)
+    public function setAPIKey(string $sKey)
     {
         if (preg_match('/^[^a-zA-Z0-9]+$/i', $sKey)) {
             throw new \Exception('Invalid API key');
         }
 
-        $this->sAPIKey = $sKey;
+        $this->apiKey = $sKey;
         return $this;
     }
 
     /**
-     * Sets the center location of the map, actual location worked out by google
-     * so input varies greatly:
-     *
+     * * Sets the center location of the map, actual location worked out by google so input varies greatly:
      * e.g:	$map->setCenter('London,UK');
      * e.g:	$map->setCenter('-0.12437000,51.59413528');
      *
-     * @param string $sCenter
-     * @return GoogleStaticMap
+     * @param string $center
+     * @return $this
      */
-    public function setCenter($sCenter)
+    public function setCenter(string $center)
     {
-        $this->mCenter = $sCenter;
+        $this->centre = $center;
         return $this;
     }
 
     /**
      * Sets the maps resolution (1 == Normal, 2 == Double, 4 == Quad)
      *
-     * @param $iScale
+     * @param $scale
      * @return $this
      * @throws \Exception
      */
-    public function setScale($iScale)
+    public function setScale(int $scale)
     {
-        if (!is_int($iScale) || !in_array($iScale, $this->aScales)) {
-            throw new \Exception('Invalid map scale value: ' . $iScale);
+        if (!in_array($scale, $this->validScales)) {
+            throw new \Exception('Invalid map scale value: ' . $scale);
         }
 
-        $this->iScale = $iScale;
+        $this->scale = $scale;
         return $this;
     }
 
     /**
      * Sets the zoom level of the map, valid values 0 to 22.
      *
-     * @param $iZoom
+     * @param $zoomLevel
      * @return $this
      * @throws \Exception
      */
-    public function setZoom($iZoom)
+    public function setZoom(int $zoomLevel)
     {
-        if ($iZoom < 0 || $iZoom > 22) {
+        if ($zoomLevel < 0 || $zoomLevel > 22) {
             throw new \Exception('Invalid Zoom amount requested, 0 to 22, acceptable');
         }
 
-        $this->iZoom = (int) $iZoom;
+        $this->zoomLevel = $zoomLevel;
         return $this;
     }
 
     /**
      * Sets the map type, options are: 'roadmap', 'satellite', 'hybrid', 'terrain'
      *
-     * @param $sMapType
+     * @param $mapType
      * @return $this
      * @throws \Exception
      */
-    public function setMapType($sMapType)
+    public function setMapType(string $mapType)
     {
-        if (!in_array($sMapType, $this->aMapTypes)) {
+        if (!in_array($mapType, $this->validMapTypes)) {
             throw new \Exception('Unknown maptype requested.');
         }
 
-        $this->sMapType = $sMapType;
+        $this->mapType = $mapType;
         return $this;
     }
 
     /**
      * Sets the output format of the map. Expected formats are: 'png', 'png8', 'png32', 'gif', 'jpg', 'jpg-baseline'
      *
-     * @param $sFileFormat
+     * @param $format
      * @return $this
      * @throws \Exception
      */
-    public function setFormat($sFileFormat)
+    public function setFormat(string $format)
     {
-        if (!in_array($sFileFormat, $this->aFormatTypes)) {
+        if (!in_array($format, $this->validFormats)) {
             throw new \Exception('Unknown image format requested');
         }
 
-        $this->sFileFormat = $sFileFormat;
+        $this->format = $format;
         return $this;
     }
 
     /**
      * Sets the height (in pixels) of the map. Maximum of 640px.
      *
-     * @param $iHeight
+     * @param $height
      * @return $this
      * @throws \Exception
      */
-    public function setHeight($iHeight)
+    public function setHeight(int $height)
     {
-        if (!is_numeric($iHeight)) {
-            throw new \Exception('Heights must be numeric');
-        }
-
-        if ($iHeight > 640) {
+        if ($height > 640) {
             throw new \Exception('Maximum height of 640px exceeded');
         }
 
-        $this->iHeight = (int) $iHeight;
+        $this->height = $height;
         return $this;
     }
 
     /**
      * Sets the width (in pixels) of the map. Maximum of 640px.
      *
-     * @param $iWidth
+     * @param $width
      * @return $this
      * @throws \Exception
      */
-    public function setWidth($iWidth)
+    public function setWidth(int $width)
     {
-        if (!is_numeric($iWidth)) {
-            throw new \Exception('Widths must be numeric');
-        }
-
-        if ($iWidth > 640) {
+        if ($width > 640) {
             throw new \Exception('Maximum width of 640px exceeded');
         }
 
-        $this->iWidth = (int) $iWidth;
+        $this->width = $width;
         return $this;
     }
 
     /**
      * Set the language of the map, acceptable values are: 'eu', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'el', 'en', 'en-AU', 'en-GB', 'es', 'eu', 'fa', 'fi', 'fil', 'fr', 'gl', 'gu', 'hi', 'hr', 'hu', 'id', 'it', 'iw', 'ja', 'kn', 'ko', 'lt', 'lv', 'ml', 'mr', 'nl', 'nn', 'no', 'or', 'pl', 'pt', 'pt-BR', 'pt-PT', 'rm', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tl', 'ta', 'te', 'th', 'tr', 'uk', 'vi', 'zh-CN', 'zh-TW'
      *
-     * @param $sLanguage
+     * @param $language
      * @return $this
      * @throws \Exception
      */
-    public function setLanguage($sLanguage)
+    public function setLanguage(string $language)
     {
-        if (!in_array($sLanguage, $this->aLanguages)) {
+        if (!in_array($language, $this->validLanguages)) {
             throw new \Exception('Unknown language requested');
         }
 
-        $this->sLanguage = $sLanguage;
+        $this->languageCode = $language;
         return $this;
     }
 
@@ -272,9 +258,9 @@ class GoogleStaticMap
     public function setFeatureStyling($mFeatureStyling)
     {
         if ($mFeatureStyling instanceof Feature) {
-            $this->aFeatureStyling[] = $mFeatureStyling;
+            $this->featureStyling[] = $mFeatureStyling;
         } elseif (is_array($mFeatureStyling)) {
-            $this->aFeatureStyling[] = new Feature($mFeatureStyling);
+            $this->featureStyling[] = new Feature($mFeatureStyling);
         } else {
             throw new \Exception('Unknown Feature Styling Passed');
         }
@@ -291,9 +277,9 @@ class GoogleStaticMap
     public function setMapPath($mPath)
     {
         if ($mPath instanceof Path) {
-            $this->oPath = $mPath;
+            $this->path = $mPath;
         } elseif (is_array($mPath)) {
-            $this->oPath = new Path($mPath);
+            $this->path = new Path($mPath);
         }
 
         return $this;
@@ -308,7 +294,7 @@ class GoogleStaticMap
      */
     public function getMarkers()
     {
-        return $this->aMarkers;
+        return $this->markers;
     }
 
     /**
@@ -318,9 +304,9 @@ class GoogleStaticMap
      *
      * @return string
      */
-    public function getCenter()
+    public function getCenter(): string
     {
-        return $this->mCenter;
+        return $this->centre;
     }
 
     /**
@@ -330,9 +316,9 @@ class GoogleStaticMap
      *
      * @return int
      */
-    public function getZoom()
+    public function getZoom(): int
     {
-        return $this->iZoom;
+        return $this->zoomLevel;
     }
 
     /**
@@ -344,7 +330,7 @@ class GoogleStaticMap
      */
     public function getMapType(): string
     {
-        return $this->sMapType;
+        return $this->mapType;
     }
 
     /**
@@ -356,7 +342,7 @@ class GoogleStaticMap
      */
     public function getFormat(): string
     {
-        return $this->aFormatTypes;
+        return $this->format;
     }
 
     /**
@@ -366,9 +352,9 @@ class GoogleStaticMap
      *
      * @return int
      */
-    public function getHeight()
+    public function getHeight(): int
     {
-        return $this->iHeight;
+        return $this->height;
     }
 
     /**
@@ -378,9 +364,9 @@ class GoogleStaticMap
      *
      * @return int
      */
-    public function getWidth()
+    public function getWidth(): int
     {
-        return $this->iWidth;
+        return $this->width;
     }
 
     /**
@@ -392,7 +378,7 @@ class GoogleStaticMap
      */
     public function getLanguage(): string
     {
-        return $this->sLanguage;
+        return $this->languageCode;
     }
 
     /**
@@ -404,18 +390,18 @@ class GoogleStaticMap
      */
     public function getFeatureStyling()
     {
-        return $this->aFeatureStyling;
+        return $this->featureStyling;
     }
 
     /**
      * Checks whether the url is within the allowed length
      *
-     * @param string $sString
+     * @param string $string
      * @return boolean
      */
-    public function validLength($sString)
+    public function validLength($string): bool
     {
-        return ((strlen($sString) > $this::MAX_URL_LENGTH) ? false : true);
+        return (strlen($string) <= $this::MAX_URL_LENGTH);
     }
 
     /**
@@ -426,41 +412,41 @@ class GoogleStaticMap
      */
     public function buildSource(): string
     {
-        $aURL = [];
+        $url = [];
 
-        $aURL[] = 'center=' . urlencode($this->mCenter);
-        $aURL[] = 'zoom=' . $this->iZoom;
-        $aURL[] = 'language=' . $this->sLanguage;
-        $aURL[] = 'maptype=' . $this->sMapType;
-        $aURL[] = 'format=' . $this->sFileFormat;
-        $aURL[] = 'size=' . $this->iWidth . 'x' . $this->iHeight;
-        $aURL[] = 'scale=' . $this->iScale;
+        $url[] = 'center=' . urlencode($this->centre);
+        $url[] = 'zoom=' . $this->zoomLevel;
+        $url[] = 'language=' . $this->languageCode;
+        $url[] = 'maptype=' . $this->mapType;
+        $url[] = 'format=' . $this->format;
+        $url[] = 'size=' . $this->width . 'x' . $this->height;
+        $url[] = 'scale=' . $this->scale;
 
 
-        if (strlen($this->sAPIKey) > 0) {
-            $aURL[] = 'key=' . $this->sAPIKey;
+        if (strlen($this->apiKey) > 0) {
+            $url[] = 'key=' . $this->apiKey;
         }
 
-        if (!empty($this->aMarkers)) {
-            foreach ($this->aMarkers as $oMarker) {
-                $aURL[] = $oMarker->build();
+        if (!empty($this->markers)) {
+            foreach ($this->markers as $oMarker) {
+                $url[] = $oMarker->build();
             }
         }
 
-        if (!empty($this->aFeatureStyling)) {
-            foreach ($this->aFeatureStyling as $oFeature) {
-                $aURL[] = $oFeature->build();
+        if (!empty($this->featureStyling)) {
+            foreach ($this->featureStyling as $oFeature) {
+                $url[] = $oFeature->build();
             }
         }
 
 
-        if ($this->oPath instanceof Path) {
-            $aURL[] = $this->oPath->build();
+        if ($this->path instanceof Path) {
+            $url[] = $this->path->build();
         }
 
-        $aURL[] = 'sensor=' . (($this->bSensor) ? 'true' : 'false');
+        $url[] = 'sensor=' . (($this->isSensor) ? 'true' : 'false');
 
-        $sSrcTag = 'http' . (($this->isHttps) ? 's' : '') . '://' . $this->sGoogleURL . '?' . implode('&', $aURL);
+        $sSrcTag = 'http' . (($this->isHttps) ? 's' : '') . '://' . $this->googleUrl . '?' . implode('&', $url);
 
         if (!$this->validLength($sSrcTag)) {
             throw new \Exception('URL Exceeded maxiumum length of ' . $this::MAX_URL_LENGTH . ' characters.');

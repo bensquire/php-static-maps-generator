@@ -2,7 +2,7 @@
 
 include('../vendor/autoload.php');
 
-$oStaticMap = new \GoogleStaticMap\GoogleStaticMap();
+$oStaticMap = new \GoogleStaticMap\Map();
 $oStaticMap->setCenter('London,UK')
         ->setHeight(300)
         ->setWidth(300)

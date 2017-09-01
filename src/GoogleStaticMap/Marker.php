@@ -17,34 +17,34 @@ class Marker
 {
     public const SEPARATOR = '|';
 
-    protected $aMarkerSizes = ['tiny', 'mid', 'small'];
-    protected $fLongitude = '';
-    protected $fLatitude = '';
-    protected $sLabel = '';
-    protected $sColor = '';
-    protected $sSize = '';
-    protected $sCustomIcon = ''; //TODO implement
+    protected $validMarkerSizes = ['tiny', 'mid', 'small'];
+    protected $longitude = '';
+    protected $latitude = '';
+    protected $label = '';
+    protected $colour = '';
+    protected $size = '';
+    protected $customIcon = ''; //TODO implement
 
-    public function __construct($aParams = [])
+    public function __construct($params = [])
     {
-        if (isset($aParams['color'])) {
-            $this->setColor($aParams['color']);
+        if (isset($params['color'])) {
+            $this->setColor($params['color']);
         }
 
-        if (isset($aParams['longitude'])) {
-            $this->setLongitude($aParams['longitude']);
+        if (isset($params['longitude'])) {
+            $this->setLongitude($params['longitude']);
         }
 
-        if (isset($aParams['latitude'])) {
-            $this->setLatitude($aParams['latitude']);
+        if (isset($params['latitude'])) {
+            $this->setLatitude($params['latitude']);
         }
 
-        if (isset($aParams['label'])) {
-            $this->setLabel($aParams['label']);
+        if (isset($params['label'])) {
+            $this->setLabel($params['label']);
         }
 
-        if (isset($aParams['size'])) {
-            $this->setSize($aParams['size']);
+        if (isset($params['size'])) {
+            $this->setSize($params['size']);
         }
     }
 
@@ -61,61 +61,61 @@ class Marker
     /**
      * Set the markers Longitude
      *
-     * @param float $fLongitude
+     * @param float $longitude
      * @return Marker
      */
-    public function setLongitude($fLongitude)
+    public function setLongitude(float $longitude)
     {
-        $this->fLongitude = $fLongitude;
+        $this->longitude = $longitude;
         return $this;
     }
 
     /**
      * Set the markers Latitude
      *
-     * @param float $fLatitude
+     * @param float latitude
      * @return Marker
      */
-    public function setLatitude($fLatitude)
+    public function setLatitude(float $latitude)
     {
-        $this->fLatitude = $fLatitude;
+        $this->latitude = $latitude;
         return $this;
     }
 
     /**
      * Set the label for this marker
      *
-     * @param string $sLabel
+     * @param string $string
      * @return Marker
      */
-    public function setLabel($sLabel)
+    public function setLabel(string $string)
     {
-        $this->sLabel = $sLabel;
+        $this->label = $string;
         return $this;
     }
 
     /**
      * Set the color for this marker
      *
-     * @param string $sColor
+     * @param string $colour
      * @return Marker
      */
-    public function setColor($sColor)
+    public function setColor(string $colour)
     {
-        $this->sColor = $sColor;
+        $this->colour = $colour;
         return $this;
     }
 
     /**
      * Set the size of the marker
      *
-     * @param string $iSize
+     * @param string $size
      * @return Marker
      */
-    public function setSize($iSize)
+    public function setSize(string $size)
     {
-        if ((in_array($iSize, $this->aMarkerSizes))) {
-            $this->sSize = $iSize;
+        if ((in_array($size, $this->validMarkerSizes))) {
+            $this->size = $size;
         }
 
         return $this;
@@ -124,21 +124,21 @@ class Marker
     /**
      * Return the marker longitude
      *
-     * @return string
+     * @return float
      */
-    public function getLongitude()
+    public function getLongitude(): float
     {
-        return $this->fLongitude;
+        return $this->longitude;
     }
 
     /**
      * Return the marker latitude
      *
-     * @return string
+     * @return float
      */
-    public function getLatitude()
+    public function getLatitude(): float
     {
-        return $this->fLatitude;
+        return $this->latitude;
     }
 
     /**
@@ -148,7 +148,7 @@ class Marker
      */
     public function getLabel(): string
     {
-        return $this->sLabel;
+        return $this->label;
     }
 
     /**
@@ -158,7 +158,7 @@ class Marker
      */
     public function getColor(): string
     {
-        return $this->sColor;
+        return $this->colour;
     }
 
     /**
@@ -168,7 +168,7 @@ class Marker
      */
     public function getSize(): string
     {
-        return $this->sSize;
+        return $this->size;
     }
 
     /**
@@ -179,9 +179,9 @@ class Marker
     public function build(): string
     {
         return 'markers=' .
-            ((!empty($this->sColor)) ? 'color:' . urlencode($this->sColor . $this::SEPARATOR) : '') .
-            ((!empty($this->sLabel)) ? 'label:' . urlencode($this->sLabel . $this::SEPARATOR) : '') .
-            ((!empty($this->sSize)) ? 'size:' . urlencode($this->sSize . $this::SEPARATOR) : '') .
-            $this->fLatitude . ',' . $this->fLongitude;
+            ((!empty($this->colour)) ? 'color:' . urlencode($this->colour . $this::SEPARATOR) : '') .
+            ((!empty($this->label)) ? 'label:' . urlencode($this->label . $this::SEPARATOR) : '') .
+            ((!empty($this->size)) ? 'size:' . urlencode($this->size . $this::SEPARATOR) : '') .
+            $this->latitude . ',' . $this->longitude;
     }
 }

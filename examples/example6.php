@@ -7,7 +7,7 @@ include('../vendor/autoload.php');
  * using coordinates, the other 2 using a string. The path is filled, as there
  * are more than 2 with a transparent yellow.
  */
-$oStaticMap = new \GoogleStaticMap\GoogleStaticMap();
+$oStaticMap = new \GoogleStaticMap\Map();
 $oStaticMap->setHeight(600)
         ->setWidth(600)
         ->setMapType('hybrid')

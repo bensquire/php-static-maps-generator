@@ -6,7 +6,7 @@ Using simple OO methods, this project will build the URL which can be used in an
 
 ## Example Code
 ```
-$oStaticMap = new GoogleStaticMap();
+$oStaticMap = new \GoogleStaticMap\Map();
 $oStaticMap->setCenter("London,UK")
     ->setHeight(300)
     ->setWidth(232)
@@ -34,5 +34,5 @@ echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() . '" w
 
 ## Requirements:
 This library requires no additional software beyond  a functional version of PHP
-5.2 (or greater) and if you wish to retrieve the Map image, a working Internet
+7.1 (or greater) and if you wish to retrieve the Map image, a working Internet
 connection.

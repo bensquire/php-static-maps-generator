@@ -2,7 +2,7 @@
 
 include('../vendor/autoload.php');
 
-$oStaticMap = new \GoogleStaticMap\GoogleStaticMap();
+$oStaticMap = new \GoogleStaticMap\Map();
 $oStaticMap->setHeight(600)
         ->setWidth(600)
         ->setMapType('hybrid')

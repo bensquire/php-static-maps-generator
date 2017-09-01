@@ -17,7 +17,7 @@ class Feature
 {
     public const SEPARATOR = '|';
 
-    protected $aFeatures = [
+    protected $validFeatures = [
         'administrative',
         'administrative.country',
         'administrative.land_parcel',
@@ -50,56 +50,56 @@ class Feature
         'transit.station.rail',
         'water'
     ];
-    protected $aElements = ['all', 'geometry', 'labels'];
-    protected $sFeature = null;
-    protected $sElement = null;
-    protected $oStyle = null;
+    protected $validElements = ['all', 'geometry', 'labels'];
+    protected $feature = null;
+    protected $element = null;
+    protected $style = null;
 
-    public function __construct(array $aParams = [])
+    public function __construct(array $params = [])
     {
-        if (isset($aParams['feature'])) {
-            $this->setFeature($aParams['feature']);
+        if (isset($params['feature'])) {
+            $this->setFeature($params['feature']);
         }
 
-        if (isset($aParams['element'])) {
-            $this->setElement($aParams['element']);
+        if (isset($params['element'])) {
+            $this->setElement($params['element']);
         }
 
-        if (isset($aParams['style'])) {
-            $this->setStyle($aParams['style']);
+        if (isset($params['style'])) {
+            $this->setStyle($params['style']);
         }
     }
 
     /**
      * Sets the type of feature the object represents
      *
-     * @param $sFeature
+     * @param $feature
      * @return $this
      * @throws \Exception
      */
-    public function setFeature($sFeature)
+    public function setFeature(string $feature)
     {
-        if (!in_array($sFeature, $this->aFeatures)) {
+        if (!in_array($feature, $this->validFeatures)) {
             throw new \Exception('Unknown Map Feature');
         }
 
-        $this->sFeature = $sFeature;
+        $this->feature = $feature;
         return $this;
     }
 
     /**
      * Creates the feature styling object either using an associative array of values or by passing in an instance of _FeatureStyling.
      *
-     * @param $mStyle
+     * @param $style
      * @return $this
      * @throws \Exception
      */
-    public function setStyle($mStyle)
+    public function setStyle($style)
     {
-        if ($mStyle instanceof \GoogleStaticMap\FeatureStyling) {
-            $this->oStyle = $mStyle;
-        } elseif (is_array($mStyle)) {
-            $this->oStyle = new \GoogleStaticMap\FeatureStyling($mStyle);
+        if ($style instanceof \GoogleStaticMap\FeatureStyling) {
+            $this->style = $style;
+        } elseif (is_array($style)) {
+            $this->style = new \GoogleStaticMap\FeatureStyling($style);
         } else {
             throw new \Exception('Invalid type passed to Map Feature Styling.');
         }
@@ -110,28 +110,28 @@ class Feature
     /**
      * Sets the element of the feature you are styling, 'all', 'geometry', 'labels'.
      *
-     * @param $sElement
+     * @param $element
      * @return $this
      * @throws \Exception
      */
-    public function setElement($sElement)
+    public function setElement(string $element)
     {
-        if (!in_array($sElement, $this->aElements)) {
+        if (!in_array($element, $this->validElements)) {
             throw new \Exception('Unknown Map Element');
         }
 
-        $this->sElement = $sElement;
+        $this->element = $element;
         return $this;
     }
 
     /**
-     * Returns the feature being editted
+     * Returns the feature being edited
      *
      * @return string
      */
-    public function getFeature()
+    public function getFeature(): string
     {
-        return $this->sFeature;
+        return $this->feature;
     }
 
     /**
@@ -139,19 +139,19 @@ class Feature
      *
      * @return \GoogleStaticMap\FeatureStyling
      */
-    public function getStyle()
+    public function getStyle(): \GoogleStaticMap\FeatureStyling
     {
-        return $this->oStyle;
+        return $this->style;
     }
 
     /**
-     * Returns the element of the feature thats being styled
+     * Returns the element of the feature that's being styled
      *
      * @return string
      */
-    public function getElement()
+    public function getElement(): string
     {
-        return $this->sElement;
+        return $this->element;
     }
 
     /**
@@ -159,12 +159,12 @@ class Feature
      *
      * @return string
      */
-    public function build()
+    public function build(): string
     {
-        if ($this->oStyle instanceof \GoogleStaticMap\FeatureStyling) {
-            $styles = $this->oStyle->build();
+        if ($this->style instanceof \GoogleStaticMap\FeatureStyling) {
+            $styles = $this->style->build();
         }
 
-        return 'style=feature:' . $this->sFeature . $this::SEPARATOR . 'element:' . $this->sElement . ((isset($styles) ? $this::SEPARATOR . $styles : ''));
+        return 'style=feature:' . $this->feature . $this::SEPARATOR . 'element:' . $this->element . ((isset($styles) ? $this::SEPARATOR . $styles : ''));
     }
 }

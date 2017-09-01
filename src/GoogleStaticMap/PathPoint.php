@@ -14,9 +14,9 @@ namespace GoogleStaticMap;
  */
 class PathPoint
 {
-    protected $fLongitude = null;
-    protected $fLatitude = null;
-    protected $sLocation = null;
+    protected $longitude = null;
+    protected $latitude = null;
+    protected $location = null;
 
     public function __construct($aParams = [])
     {
@@ -25,51 +25,43 @@ class PathPoint
     /**
      * Set the longitude of the map point.
      *
-     * @param $fLongitude
+     * @param $longitude
      * @return $this
      * @throws \Exception
      */
-    public function setLongitude($fLongitude)
+    public function setLongitude(float $longitude)
     {
-        if (!is_numeric($fLongitude)) {
-            throw new \Exception('Invalid longitude value.');
-        }
-
-        $this->fLongitude = (float) $fLongitude;
+        $this->longitude = $longitude;
         return $this;
     }
 
     /**
      * Set the Latitude of the map point.
      *
-     * @param $fLatitude
+     * @param $latitude
      * @return $this
      * @throws \Exception
      */
-    public function setLatitude($fLatitude)
+    public function setLatitude(float $latitude)
     {
-        if (!is_numeric($fLatitude)) {
-            throw new \Exception('Invalid latitude value.');
-        }
-
-        $this->fLatitude = (float) $fLatitude;
+        $this->latitude = (float) $latitude;
         return $this;
     }
 
     /**
      * Set a string location of the map point.
      *
-     * @param string $sLocation
+     * @param string $location
      * @return \GoogleStaticMap\PathPoint
      * @throws \Exception
      */
-    public function setLocation($sLocation)
+    public function setLocation(string $location)
     {
-        if (strlen($sLocation) === 0) {
+        if (strlen($location) === 0) {
             throw new \Exception('No string location provided...');
         }
 
-        $this->sLocation = (string) $sLocation;
+        $this->location = $location;
         return $this;
     }
 
@@ -78,9 +70,9 @@ class PathPoint
      *
      * @return float
      */
-    public function getLongitude()
+    public function getLongitude(): float
     {
-        return $this->fLongitude;
+        return $this->longitude;
     }
 
     /**
@@ -88,9 +80,9 @@ class PathPoint
      *
      * @return float
      */
-    public function getLatitude()
+    public function getLatitude(): float
     {
-        return $this->fLatitude;
+        return $this->latitude;
     }
 
     /**
@@ -100,7 +92,7 @@ class PathPoint
      */
     public function getLocation(): string
     {
-        return $this->sLocation;
+        return $this->location;
     }
 
     /**
@@ -110,7 +102,7 @@ class PathPoint
      */
     protected function combineCoordinates(): string
     {
-        return $this->fLatitude . ',' . $this->fLongitude;
+        return $this->latitude . ',' . $this->longitude;
     }
 
     /**
@@ -120,12 +112,12 @@ class PathPoint
      */
     public function build(): string
     {
-        if (strlen($this->fLongitude) > 0 && strlen($this->fLatitude) > 0) {
+        if (strlen($this->longitude) > 0 && strlen($this->latitude) > 0) {
             return $this->combineCoordinates();
         }
 
-        if (strlen($this->sLocation) > 0) {
-            return urlencode($this->sLocation);
+        if (strlen($this->location) > 0) {
+            return urlencode($this->location);
         }
 
         return '';

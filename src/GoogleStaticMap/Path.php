@@ -18,8 +18,8 @@ class Path
 {
     public const SEPARATOR = '|';
 
-    protected $aPoints = [];
-    protected $aAcceptableColors = [
+    protected $points = [];
+    protected $validColours = [
         'black',
         'brown',
         'green',
@@ -31,81 +31,77 @@ class Path
         'red',
         'white'
     ];
-    protected $iWeight = null;
-    protected $sColor = null;
-    protected $sFillColor = null;
+    protected $weight = null;
+    protected $colour = null;
+    protected $fillColour = null;
 
-    public function __construct($aParams = [])
+    public function __construct(array $params = [])
     {
-        if (isset($aParams['weight'])) {
-            $this->setWeight($aParams['weight']);
+        if (isset($params['weight'])) {
+            $this->setWeight($params['weight']);
         }
 
-        if (isset($aParams['color'])) {
-            $this->setColor($aParams['color']);
+        if (isset($params['color'])) {
+            $this->setColor($params['color']);
         }
 
-        if (isset($aParams['fill_color'])) {
-            $this->setFillColor($aParams['fill_color']);
+        if (isset($params['fill_color'])) {
+            $this->setFillColor($params['fill_color']);
         }
 
-        if (isset($aParams['point'])) {
-            $this->setPoint($aParams['point']);
+        if (isset($params['point'])) {
+            $this->setPoint($params['point']);
         }
     }
 
     /**
      * Set the weight of the map path line in px
      *
-     * @param $iWeight
+     * @param int $weight
      * @return $this
      * @throws \Exception
      */
-    public function setWeight($iWeight)
+    public function setWeight(int $weight)
     {
-        if (!preg_match('/^([0-9])+$/', $iWeight)) {
-            throw new \Exception('Only integers allowed');
-        }
-
-        $this->iWeight = (int) $iWeight;
+        $this->weight = $weight;
         return $this;
     }
 
     /**
      * Sets the color of the map path line, 24 or 32bit hex, or part of the listed color array.
      *
-     * @param $sColor
+     * @param $colour
      * @return $this
      * @throws \Exception
      */
-    public function setColor($sColor)
+    public function setColor(string $colour)
     {
-        $sColor = strtolower($sColor);
+        $colour = strtolower($colour);
 
-        if (!preg_match('/^0x[0-9A-F]{6,8}/', $sColor) && !in_array($sColor, $this->aAcceptableColors)) {
-            throw new \Exception('Invalid Color, 24/32bit (0x00000000) or string: ' . $sColor);
+        if (!preg_match('/^0x[0-9A-F]{6,8}/', $colour) && !in_array($colour, $this->validColours)) {
+            throw new \Exception('Invalid Color, 24/32bit (0x00000000) or string: ' . $colour);
         }
 
-        $this->sColor = $sColor;
+        $this->colour = $colour;
         return $this;
     }
 
     /**
      * Set the fill color of the map path (requires more than 2 points for it to become visible).
      *
-     * @param $sFillColor
+     * @param $colour
      * @return $this
      * @throws \Exception
      */
-    public function setFillColor($sFillColor)
+    public function setFillColor(string $colour)
     {
         //fillcolor (24bit or 32bit color value) indicates its a closed loop path
 
-        if (!preg_match('/^0x[0-9A-Fa-f]{6,8}/', $sFillColor)) {
+        if (!preg_match('/^0x[0-9A-Fa-f]{6,8}/', $colour)) {
             throw new \Exception('Invalid Fill Color, 24/32bit (0x00000000) or string');
         }
 
-        $this->sFillColor = $sFillColor;
+        $this->fillColour = $colour;
         return $this;
     }
 
@@ -114,9 +110,9 @@ class Path
      *
      * @return int
      */
-    public function getWeight()
+    public function getWeight(): int
     {
-        return $this->iWeight;
+        return $this->weight;
     }
 
     /**
@@ -126,7 +122,7 @@ class Path
      */
     public function getFillColor(): string
     {
-        return $this->sFillColor;
+        return $this->fillColour;
     }
 
     /**
@@ -136,7 +132,7 @@ class Path
      */
     public function getColor(): string
     {
-        return $this->sColor;
+        return $this->colour;
     }
 
     /**
@@ -144,22 +140,22 @@ class Path
      * object, an array of PathPoint objects or an array of
      * PathPoint constructor values
      *
-     * @param mixed $mPoints Array or PathPoint object
+     * @param mixed $points Array or PathPoint object
      * @return \GoogleStaticMap\Path
      * @throws \Exception
      */
-    public function setPoint($mPoints)
+    public function setPoint($points)
     {
-        if (is_array($mPoints) && count($mPoints) > 0) {
-            foreach ($mPoints as $mPoint) {
-                if ($mPoints instanceof PathPoint) {
-                    $this->aPoints[] = $mPoint;
-                } elseif (is_array($mPoint)) {
-                    $this->aPoints[] = new PathPoint($mPoint);
+        if (is_array($points) && count($points) > 0) {
+            foreach ($points as $point) {
+                if ($points instanceof PathPoint) {
+                    $this->points[] = $point;
+                } elseif (is_array($point)) {
+                    $this->points[] = new PathPoint($point);
                 }
             }
-        } elseif ($mPoints instanceof PathPoint) {
-            $this->aPoints[] = $mPoints;
+        } elseif ($points instanceof PathPoint) {
+            $this->points[] = $points;
         } else {
             throw new \Exception('Invalid Map Path Point');
         }
@@ -174,32 +170,32 @@ class Path
      */
     public function build(): string
     {
-        $sPath = '';
+        $path = '';
 
-        if (count($this->aPoints) > 0) {
-            $aUrl = [];
+        if (count($this->points) > 0) {
+            $url = [];
 
             //Styling First
-            if (strlen($this->iWeight) > 0) {
-                $aUrl[] = 'weight:' . $this->iWeight;
+            if (strlen($this->weight) > 0) {
+                $url[] = 'weight:' . $this->weight;
             }
 
-            if (strlen($this->sColor) > 0) {
-                $aUrl[] = 'color:' . $this->sColor;
+            if (strlen($this->colour) > 0) {
+                $url[] = 'color:' . $this->colour;
             }
 
-            if (strlen($this->sFillColor) > 0) {
-                $aUrl[] = 'fillcolor:' . $this->sFillColor;
+            if (strlen($this->fillColour) > 0) {
+                $url[] = 'fillcolor:' . $this->fillColour;
             }
 
             //Then the points
-            foreach ($this->aPoints as $aPoint) {
-                $aUrl[] = $aPoint->build();
+            foreach ($this->points as $point) {
+                $url[] = $point->build();
             }
 
-            $sPath .= implode($this::SEPARATOR, $aUrl);
+            $path .= implode($this::SEPARATOR, $url);
         }
 
-        return ((strlen($sPath) > 0) ? 'path=' . $sPath : '');
+        return ((strlen($path) > 0) ? 'path=' . $path : '');
     }
 }
