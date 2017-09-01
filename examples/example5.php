@@ -14,20 +14,20 @@ include('../googlestaticmappathpoint.php');
 
 $oStaticMap = new GoogleStaticMap();
 $oStaticMap->setHeight(600)
-		->setWidth(600)
-		->setMapType('hybrid')
-		->setFormat('jpg')
-		->setScale(2);
+        ->setWidth(600)
+        ->setMapType('hybrid')
+        ->setFormat('jpg')
+        ->setScale(2);
 
 //Create Path Object and set styling
 $oPath = new GoogleStaticMapPath();
 $oPath->setColor('red')
-		->setWeight(5);
+        ->setWeight(5);
 
 //Create Path Point
 $oPathPoint = new GoogleStaticMapPathPoint();
 $oPathPoint->setLatitude(51.855376)
-		->setLongitude(-0.576904);
+        ->setLongitude(-0.576904);
 $oPath->setPoint($oPathPoint);
 
 //Create Another Path Point

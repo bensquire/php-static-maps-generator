@@ -14,26 +14,26 @@ include('../googlestaticmappathpoint.php');
 
 $oStaticMap = new GoogleStaticMap();
 $oStaticMap->setCenter('London,UK')
-		->setHeight(300)
-		->setWidth(300)
-		->setZoom(8)
-		->setMapType('hybrid')
-		->setFormat('png');
+        ->setHeight(300)
+        ->setWidth(300)
+        ->setZoom(8)
+        ->setMapType('hybrid')
+        ->setFormat('png');
 
-$oStaticMap->setMarker(array(
-	'color' => 'blue',
-	'size' => 'mid',
-	'longitude' => -0.062004,
-	'latitude' => 51.462564,
-	'label' => 'C'
-));
+$oStaticMap->setMarker([
+    'color' => 'blue',
+    'size' => 'mid',
+    'longitude' => -0.062004,
+    'latitude' => 51.462564,
+    'label' => 'C'
+]);
 
 $oMarker = new GoogleStaticMapMarker();
 $oMarker->setColor('red')
-		->setSize('large')
-		->setLongitude(-0.576904)
-		->setLatitude(51.855376)
-		->setLabel('B');
+        ->setSize('large')
+        ->setLongitude(-0.576904)
+        ->setLatitude(51.855376)
+        ->setLabel('B');
 
 $oStaticMap->setMarker($oMarker);
 

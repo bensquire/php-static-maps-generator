@@ -13,11 +13,10 @@ include('../googlestaticmappath.php');
 include('../googlestaticmappathpoint.php');
 
 $oStaticMap = new GoogleStaticMap();
-$oStaticMap->setCenter("London,UK")
-		->setHeight(300)
-		->setWidth(232)
-		->setZoom(8)
-		->setHttps(true);
+$oStaticMap->setCenter('London,UK')
+        ->setHeight(300)
+        ->setWidth(232)
+        ->setZoom(8)
+        ->setHttps(true);
 
 echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() . '" width="' . $oStaticMap->getWidth() . '" />';
-?>
