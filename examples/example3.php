@@ -10,7 +10,7 @@ $oStaticMap->setCenter('London,UK')
         ->setMapType('hybrid')
         ->setFormat('png');
 
-$oStaticMap->setMarker([
+$oStaticMap->addMarker([
     'color' => 'blue',
     'size' => 'mid',
     'longitude' => -0.062004,

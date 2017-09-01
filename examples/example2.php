@@ -8,7 +8,7 @@ $oStaticMap->setCenter('London,UK')
         ->setWidth(232)
         ->setZoom(8)
         ->setFormat('jpg')
-        ->setFeatureStyling([
+        ->addFeatureStyling([
             'feature' => 'all',
             'element' => 'all',
             'style' => [

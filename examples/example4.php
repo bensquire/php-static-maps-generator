@@ -10,7 +10,7 @@ $oStaticMap->setCenter('London,UK')
         ->setMapType('hybrid')
         ->setFormat('png');
 
-$oStaticMap->setMarker([
+$oStaticMap->addMarker([
     'color' => 'blue',
     'size' => 'mid',
     'longitude' => -0.062004,
@@ -25,6 +25,6 @@ $oMarker->setColor('red')
         ->setLatitude(51.855376)
         ->setLabel('B');
 
-$oStaticMap->setMarker($oMarker);
+$oStaticMap->addMarker($oMarker);
 
 echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() . '" width="' . $oStaticMap->getWidth() . '" />';

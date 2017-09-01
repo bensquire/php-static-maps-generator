@@ -18,12 +18,12 @@ $oPath->setColor('red')
 $oPathPoint = new \GoogleStaticMap\PathPoint();
 $oPathPoint->setLatitude(51.855376)
         ->setLongitude(-0.576904);
-$oPath->setPoint($oPathPoint);
+$oPath->addPoint($oPathPoint);
 
 //Create Another Path Point
 $oPathPoint2 = new \GoogleStaticMap\PathPoint();
 $oPathPoint2->setLocation('Wembley, UK');
-$oPath->setPoint($oPathPoint2);
+$oPath->addPoint($oPathPoint2);
 
 //Add Points to Map
 $oStaticMap->setMapPath($oPath);

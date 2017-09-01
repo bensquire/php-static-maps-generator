@@ -50,7 +50,7 @@ class Path
         }
 
         if (isset($params['point'])) {
-            $this->setPoint($params['point']);
+            $this->addPoint($params['point']);
         }
     }
 
@@ -144,7 +144,7 @@ class Path
      * @return \GoogleStaticMap\Path
      * @throws \Exception
      */
-    public function setPoint($points)
+    public function addPoint($points)
     {
         if (is_array($points) && count($points) > 0) {
             foreach ($points as $point) {
@@ -154,13 +154,16 @@ class Path
                     $this->points[] = new PathPoint($point);
                 }
             }
-        } elseif ($points instanceof PathPoint) {
-            $this->points[] = $points;
-        } else {
-            throw new \Exception('Invalid Map Path Point');
+
+            return $this;
         }
 
-        return $this;
+        if ($points instanceof PathPoint) {
+            $this->points[] = $points;
+            return $this;
+        }
+
+        throw new \Exception('Invalid Map Path Point');
     }
 
     /**

@@ -24,17 +24,17 @@ $oPath->setColor('0x00000000')
 $oPathPoint = new \GoogleStaticMap\PathPoint();
 $oPathPoint->setLatitude(51.855376)
         ->setLongitude(-0.576904);
-$oPath->setPoint($oPathPoint);
+$oPath->addPoint($oPathPoint);
 
 //Create Another Path Point
 $oPathPoint2 = new \GoogleStaticMap\PathPoint();
 $oPathPoint2->setLocation('Wembley, UK');
-$oPath->setPoint($oPathPoint2);
+$oPath->addPoint($oPathPoint2);
 
 //Create Another Path Point
 $oPathPoint3 = new \GoogleStaticMap\PathPoint();
 $oPathPoint3->setLocation('Barnet, UK');
-$oPath->setPoint($oPathPoint3);
+$oPath->addPoint($oPathPoint3);
 
 //Add Points to Map
 $oStaticMap->setMapPath($oPath);

@@ -72,7 +72,7 @@ class Map
      * @return $this
      * @throws \Exception
      */
-    public function setMarker($aParams)
+    public function addMarker($aParams)
     {
         if ($aParams instanceof Marker) {
             $this->markers[] = $aParams;
@@ -255,7 +255,7 @@ class Map
      * @return $this
      * @throws \Exception
      */
-    public function setFeatureStyling($mFeatureStyling)
+    public function addFeatureStyling($mFeatureStyling)
     {
         if ($mFeatureStyling instanceof Feature) {
             $this->featureStyling[] = $mFeatureStyling;
