@@ -55,7 +55,7 @@ class Feature
     protected $sElement = null;
     protected $oStyle = null;
 
-    public function __construct($aParams = [])
+    public function __construct(array $aParams = [])
     {
         if (isset($aParams['feature'])) {
             $this->setFeature($aParams['feature']);
@@ -73,8 +73,9 @@ class Feature
     /**
      * Sets the type of feature the object represents
      *
-     * @param string $sFeature
-     * @return Feature
+     * @param $sFeature
+     * @return $this
+     * @throws \Exception
      */
     public function setFeature($sFeature)
     {
@@ -87,11 +88,11 @@ class Feature
     }
 
     /**
-     * Creates the feature styling object either using an associative array of
-     * values or by passing in an instance of _FeatureStyling.
+     * Creates the feature styling object either using an associative array of values or by passing in an instance of _FeatureStyling.
      *
-     * @param \GoogleStaticMap\FeatureStyling $mStyle
-     * @return Feature
+     * @param $mStyle
+     * @return $this
+     * @throws \Exception
      */
     public function setStyle($mStyle)
     {
@@ -109,8 +110,9 @@ class Feature
     /**
      * Sets the element of the feature you are styling, 'all', 'geometry', 'labels'.
      *
-     * @param string $sElement
-     * @return Feature
+     * @param $sElement
+     * @return $this
+     * @throws \Exception
      */
     public function setElement($sElement)
     {

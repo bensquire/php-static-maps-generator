@@ -25,8 +25,9 @@ class PathPoint
     /**
      * Set the longitude of the map point.
      *
-     * @param float $fLongitude
-     * @return \GoogleStaticMap\PathPoint
+     * @param $fLongitude
+     * @return $this
+     * @throws \Exception
      */
     public function setLongitude($fLongitude)
     {
@@ -41,8 +42,9 @@ class PathPoint
     /**
      * Set the Latitude of the map point.
      *
-     * @param float $fLatitude
-     * @return \GoogleStaticMap\PathPoint
+     * @param $fLatitude
+     * @return $this
+     * @throws \Exception
      */
     public function setLatitude($fLatitude)
     {
@@ -120,7 +122,9 @@ class PathPoint
     {
         if (strlen($this->fLongitude) > 0 && strlen($this->fLatitude) > 0) {
             return $this->combineCoordinates();
-        } elseif (strlen($this->sLocation) > 0) {
+        }
+
+        if (strlen($this->sLocation) > 0) {
             return urlencode($this->sLocation);
         }
 

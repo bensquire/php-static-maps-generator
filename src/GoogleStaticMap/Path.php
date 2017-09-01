@@ -57,8 +57,8 @@ class Path
     /**
      * Set the weight of the map path line in px
      *
-     * @param int $iWeight The width of the map path line
-     * @return \PathStyling
+     * @param $iWeight
+     * @return $this
      * @throws \Exception
      */
     public function setWeight($iWeight)
@@ -72,11 +72,10 @@ class Path
     }
 
     /**
-     * Sets the color of the map path line, 24 or 32bit hex, or part of the
-     * listed color array.
+     * Sets the color of the map path line, 24 or 32bit hex, or part of the listed color array.
      *
-     * @param string $sColor
-     * @return \PathStyling
+     * @param $sColor
+     * @return $this
      * @throws \Exception
      */
     public function setColor($sColor)
@@ -92,11 +91,10 @@ class Path
     }
 
     /**
-     * Set the fill color of the map path (requires more than 2 points for it to
-     * become visible).
+     * Set the fill color of the map path (requires more than 2 points for it to become visible).
      *
-     * @param string $sFillColor
-     * @return \PathStyling
+     * @param $sFillColor
+     * @return $this
      * @throws \Exception
      */
     public function setFillColor($sFillColor)
