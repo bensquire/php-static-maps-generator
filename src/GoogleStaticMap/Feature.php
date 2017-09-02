@@ -98,13 +98,15 @@ class Feature
     {
         if ($style instanceof \GoogleStaticMap\FeatureStyling) {
             $this->style = $style;
-        } elseif (is_array($style)) {
-            $this->style = new \GoogleStaticMap\FeatureStyling($style);
-        } else {
-            throw new \Exception('Invalid type passed to Map Feature Styling.');
+            return $this;
         }
 
-        return $this;
+        if (is_array($style)) {
+            $this->style = new \GoogleStaticMap\FeatureStyling($style);
+            return $this;
+        }
+
+        throw new \Exception('Invalid type passed to Map Feature Styling.');
     }
 
     /**
@@ -139,7 +141,7 @@ class Feature
      *
      * @return \GoogleStaticMap\FeatureStyling
      */
-    public function getStyle(): \GoogleStaticMap\FeatureStyling
+    public function getStyle(): ?\GoogleStaticMap\FeatureStyling
     {
         return $this->style;
     }

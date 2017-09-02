@@ -2,14 +2,20 @@
 <phpunit colors="true" verbose="true" bootstrap="./tests/Bootstrap.php">
     <testsuites>
         <testsuite name="PhpStaticMapsGenerator Tests">
-            <directory suffix="Test.php" phpVersion="7.0" phpVersionOperator=">=">tests/PhpCronGenerator</directory>
+            <directory suffix="Test.php" phpVersion="7.0" phpVersionOperator=">=">./tests/GoogleStaticMap/</directory>
         </testsuite>
     </testsuites>
 
     <logging>
-        <log type="coverage-html" target="build/coverage" title="bbensquire/php-static-maps-generator" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="90"/>
-        <log type="coverage-text" target="php://stdout" title="bbensquire/php-static-maps-generator" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="90"/>
+        <log type="coverage-html" target="build/coverage" title="bensquire/php-static-maps-generator" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="90"/>
+        <log type="coverage-text" target="php://stdout" title="bensquire/php-static-maps-generator" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="90"/>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
         <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
     </logging>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src/</directory>
+        </whitelist>
+    </filter>
 </phpunit>
