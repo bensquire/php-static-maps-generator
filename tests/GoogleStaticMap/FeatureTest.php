@@ -7,8 +7,7 @@ class FeatureTest extends PHPUnit_Framework_TestCase
     {
         new Feature([
             'feature' => 'administrative',
-            'element'=> 'geometry',
-            'style' => [],
+            'element'=> 'geometry'
         ]);
     }
 
@@ -23,18 +22,12 @@ class FeatureTest extends PHPUnit_Framework_TestCase
         $object->setFeature('administrative2');
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Invalid type passed to Map Feature Styling.
-     */
     public function testSetStyle()
     {
         $featureStyling = new \GoogleStaticMap\Feature\Styling();
 
         $object = new Feature();
         $this->assertInstanceOf('\GoogleStaticMap\Feature', $object->setStyle($featureStyling));
-        $this->assertInstanceOf('\GoogleStaticMap\Feature', $object->setStyle([]));
-        $this->assertInstanceOf('\GoogleStaticMap\Feature', $object->setStyle('throw an exception'));
     }
 
     /**
@@ -59,9 +52,6 @@ class FeatureTest extends PHPUnit_Framework_TestCase
     {
         $object = new Feature();
         $this->assertNull($object->getStyle());
-
-        $object->setStyle([]);
-        $this->assertInstanceOf('\GoogleStaticMap\Feature\Styling', $object->getStyle());
     }
 
     public function testGetElement()
