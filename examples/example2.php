@@ -17,6 +17,6 @@ $oStaticMap->setCenter('London,UK')
         ->setWidth(232)
         ->setZoom(8)
         ->setFormat('jpg')
-        ->addFeatureStyling($featureStyling);
+        ->addFeature($featureStyling);
 
 echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() . '" width="' . $oStaticMap->getWidth() . '" />';

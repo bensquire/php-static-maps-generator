@@ -131,8 +131,8 @@ class MapTest extends PHPUnit_Framework_TestCase
         $feature = new \GoogleStaticMap\Feature();
 
         $object = new \GoogleStaticMap\Map();
-        $this->assertInstanceOf('GoogleStaticMap\Map', $object->addFeatureStyling($feature));
-        $this->assertEquals([$feature], $object->getFeatureStyling());
+        $this->assertInstanceOf('GoogleStaticMap\Map', $object->addFeature($feature));
+        $this->assertEquals([$feature], $object->getFeature());
     }
 
     public function testSetMapPath()
@@ -146,5 +146,27 @@ class MapTest extends PHPUnit_Framework_TestCase
 
     public function testBuildSource()
     {
+        $path = new \GoogleStaticMap\Path([
+            'weight' => 2
+        ]);
+
+        $object = new \GoogleStaticMap\Map();
+        $object->setScale(1)
+            ->setAPIKey('foooo')
+            ->setMapPath($path)
+            ->addMarker(new \GoogleStaticMap\Marker(['color' => 'red']))
+            ->addFeature(new \GoogleStaticMap\Feature([
+                'feature' => 'all'
+            ]))
+            ->setLanguage('en')
+            ->setMapType('roadmap')
+            ->setZoom(2)
+            ->setCenter('London,UK')
+            ->setHttps(true)
+            ->setFormat('png')
+            ->setHeight(480)
+            ->setWidth(480);
+
+        $object->buildSource();
     }
 }

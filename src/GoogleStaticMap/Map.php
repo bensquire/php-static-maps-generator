@@ -52,7 +52,7 @@ class Map
     protected $markers = [];
     protected $path = null;
     protected $visible = [];  //TODO Add
-    protected $featureStyling = [];
+    protected $feature = [];
     protected $isSensor = false;
 
     /**
@@ -245,13 +245,13 @@ class Map
      * Create (or adds) the styling of single the map feature, pass in either an object of _Feature or an array of parameters
      * e.g:    $map->setFeatureStyling(array('feature'=>'all', 'element'=>'all', 'style'=>array('hue'=>'6095C6', 'saturation'=>-23, 'gamma'=>3.88, 'lightness'=>16)));
      *
-     * @param $mFeatureStyling
+     * @param $feature
      * @return $this
      * @throws \Exception
      */
-    public function addFeatureStyling(Feature $mFeatureStyling)
+    public function addFeature(Feature $feature)
     {
-        $this->featureStyling[] = $mFeatureStyling;
+        $this->feature[] = $feature;
         return $this;
     }
 
@@ -378,9 +378,9 @@ class Map
      *
      * @return array
      */
-    public function getFeatureStyling()
+    public function getFeature()
     {
-        return $this->featureStyling;
+        return $this->feature;
     }
 
     /**
@@ -431,8 +431,8 @@ class Map
             }
         }
 
-        if (!empty($this->featureStyling)) {
-            foreach ($this->featureStyling as $oFeature) {
+        if (!empty($this->feature)) {
+            foreach ($this->feature as $oFeature) {
                 $url[] = $oFeature->build();
             }
         }
