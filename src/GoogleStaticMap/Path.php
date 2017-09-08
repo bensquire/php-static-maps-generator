@@ -1,5 +1,6 @@
 <?php
 namespace GoogleStaticMap;
+use GoogleStaticMap\Path\Point;
 
 /**
  * @author Ben Squire <b.squire@gmail.com>
@@ -136,34 +137,13 @@ class Path
     }
 
     /**
-     * Creates the points in the Map Path, either pass a PathPoint
-     * object, an array of PathPoint objects or an array of
-     * PathPoint constructor values
-     *
-     * @param mixed $points Array or PathPoint object
-     * @return \GoogleStaticMap\Path
-     * @throws \Exception
+     * @param Point $point
+     * @return $this
      */
-    public function addPoint($points)
+    public function addPoint(Point $point)
     {
-        if (is_array($points) && count($points) > 0) {
-            foreach ($points as $point) {
-                if ($points instanceof PathPoint) {
-                    $this->points[] = $point;
-                } elseif (is_array($point)) {
-                    $this->points[] = new PathPoint($point);
-                }
-            }
-
-            return $this;
-        }
-
-        if ($points instanceof PathPoint) {
-            $this->points[] = $points;
-            return $this;
-        }
-
-        throw new \Exception('Invalid Map Path Point');
+        $this->points[] = $point;
+        return $this;
     }
 
     /**

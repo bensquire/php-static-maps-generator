@@ -1,4 +1,5 @@
 <?php
+
 namespace GoogleStaticMap;
 
 /**
@@ -8,16 +9,16 @@ namespace GoogleStaticMap;
  * @package GoogleStaticMap
  *
  * @abstract This class generates an img src which can be used to load a
- * 			'Google Static Map', it currently supports free features,
- * 			with plans to integrate the premium features at a later date.
+ *            'Google Static Map', it currently supports free features,
+ *            with plans to integrate the premium features at a later date.
  *
- * 			Editable Features include:
- * 				-	Map zoom, language, img format, scale etc
- * 				-	Markers
- * 				-	Feature Styling
+ *            Editable Features include:
+ *                -    Map zoom, language, img format, scale etc
+ *                -    Markers
+ *                -    Feature Styling
  *
- * 			Please note Google restricts you to 25,000 unique map generations
- * 			each day.
+ *            Please note Google restricts you to 25,000 unique map generations
+ *            each day.
  *
  * @see https://github.com/bensquire/php-static-maps-generator
  *
@@ -49,7 +50,7 @@ class Map
     protected $languageCode = 'en-GB';
     protected $region = '';   //TODO Add
     protected $markers = [];
-    protected $path = [];   //TODO Add
+    protected $path = null;
     protected $visible = [];  //TODO Add
     protected $featureStyling = [];
     protected $isSensor = false;
@@ -66,22 +67,15 @@ class Map
 
     /**
      * Sets a single map marker instance, using either an array of parameters, or by passing in  _Marker object
-     * e.g:	$map->setMarker(array('color'=>'blue','size'=>'mid','longitude'=>-0.12437000,'latitude'=>51.59413528));
+     * e.g:    $map->setMarker(array('color'=>'blue','size'=>'mid','longitude'=>-0.12437000,'latitude'=>51.59413528));
      *
      * @param $aParams
      * @return $this
      * @throws \Exception
      */
-    public function addMarker($aParams)
+    public function addMarker(Marker $aParams)
     {
-        if ($aParams instanceof Marker) {
-            $this->markers[] = $aParams;
-        } elseif (is_array($aParams)) {
-            $this->markers[] = new Marker($aParams);
-        } else {
-            throw new \Exception('Unknown marker type passed in, not array nor object');
-        }
-
+        $this->markers[] = $aParams;
         return $this;
     }
 
@@ -116,8 +110,8 @@ class Map
 
     /**
      * * Sets the center location of the map, actual location worked out by google so input varies greatly:
-     * e.g:	$map->setCenter('London,UK');
-     * e.g:	$map->setCenter('-0.12437000,51.59413528');
+     * e.g:    $map->setCenter('London,UK');
+     * e.g:    $map->setCenter('-0.12437000,51.59413528');
      *
      * @param string $center
      * @return $this
@@ -155,7 +149,7 @@ class Map
     public function setZoom(int $zoomLevel)
     {
         if ($zoomLevel < 0 || $zoomLevel > 22) {
-            throw new \Exception('Invalid Zoom amount requested, 0 to 22, acceptable');
+            throw new \Exception('Invalid Zoom amount requested, 0 to 22, acceptable.');
         }
 
         $this->zoomLevel = $zoomLevel;
@@ -172,7 +166,7 @@ class Map
     public function setMapType(string $mapType)
     {
         if (!in_array($mapType, $this->validMapTypes)) {
-            throw new \Exception('Unknown maptype requested.');
+            throw new \Exception('Unknown map type requested.');
         }
 
         $this->mapType = $mapType;
@@ -189,7 +183,7 @@ class Map
     public function setFormat(string $format)
     {
         if (!in_array($format, $this->validFormats)) {
-            throw new \Exception('Unknown image format requested');
+            throw new \Exception('Unknown image format requested.');
         }
 
         $this->format = $format;
@@ -206,7 +200,7 @@ class Map
     public function setHeight(int $height)
     {
         if ($height > 640) {
-            throw new \Exception('Maximum height of 640px exceeded');
+            throw new \Exception('Height cannot be above 640.');
         }
 
         $this->height = $height;
@@ -223,7 +217,7 @@ class Map
     public function setWidth(int $width)
     {
         if ($width > 640) {
-            throw new \Exception('Maximum width of 640px exceeded');
+            throw new \Exception('Width cannot be above 640.');
         }
 
         $this->width = $width;
@@ -240,7 +234,7 @@ class Map
     public function setLanguage(string $language)
     {
         if (!in_array($language, $this->validLanguages)) {
-            throw new \Exception('Unknown language requested');
+            throw new \Exception('Unknown language requested.');
         }
 
         $this->languageCode = $language;
@@ -249,22 +243,15 @@ class Map
 
     /**
      * Create (or adds) the styling of single the map feature, pass in either an object of _Feature or an array of parameters
-     * e.g:	$map->setFeatureStyling(array('feature'=>'all', 'element'=>'all', 'style'=>array('hue'=>'6095C6', 'saturation'=>-23, 'gamma'=>3.88, 'lightness'=>16)));
+     * e.g:    $map->setFeatureStyling(array('feature'=>'all', 'element'=>'all', 'style'=>array('hue'=>'6095C6', 'saturation'=>-23, 'gamma'=>3.88, 'lightness'=>16)));
      *
      * @param $mFeatureStyling
      * @return $this
      * @throws \Exception
      */
-    public function addFeatureStyling($mFeatureStyling)
+    public function addFeatureStyling(Feature $mFeatureStyling)
     {
-        if ($mFeatureStyling instanceof Feature) {
-            $this->featureStyling[] = $mFeatureStyling;
-        } elseif (is_array($mFeatureStyling)) {
-            $this->featureStyling[] = new Feature($mFeatureStyling);
-        } else {
-            throw new \Exception('Unknown Feature Styling Passed');
-        }
-
+        $this->featureStyling[] = $mFeatureStyling;
         return $this;
     }
 
@@ -274,25 +261,20 @@ class Map
      * @param $mPath
      * @return $this
      */
-    public function setMapPath($mPath)
+    public function setMapPath(Path $mPath)
     {
-        if ($mPath instanceof Path) {
-            $this->path = $mPath;
-        } elseif (is_array($mPath)) {
-            $this->path = new Path($mPath);
-        }
-
+        $this->path = $mPath;
         return $this;
     }
 
     /**
      * Returns an array of set Marker objects;
      *
-     * e.g:	$markers = $map->getMarkers();
+     * e.g:    $markers = $map->getMarkers();
      *
      * @return array
      */
-    public function getMarkers()
+    public function getMarkers(): array
     {
         return $this->markers;
     }
@@ -300,19 +282,27 @@ class Map
     /**
      * Returns the parameter passed to set the map
      *
-     * e.g:	$center = $map->getCenter();
+     * e.g:    $center = $map->getCenter();
      *
      * @return string
      */
-    public function getCenter(): string
+    public function getCenter(): ?string
     {
         return $this->centre;
     }
 
     /**
+     * @return int|null
+     */
+    public function getScale(): ?int
+    {
+        return $this->scale;
+    }
+
+    /**
      * Returns the zoom level set.
      *
-     * e.g:	$zoom = $map->getZoom();
+     * e.g:    $zoom = $map->getZoom();
      *
      * @return int
      */
@@ -324,7 +314,7 @@ class Map
     /**
      * Returns the set map type.
      *
-     * e.g:	$type = $map->getType();
+     * e.g:    $type = $map->getType();
      *
      * @return string
      */
@@ -336,7 +326,7 @@ class Map
     /**
      * Returns the set format of the map
      *
-     * e.g:	$format = $map->getFormat();
+     * e.g:    $format = $map->getFormat();
      *
      * @return string
      */
@@ -348,7 +338,7 @@ class Map
     /**
      * Returns the set height of the map
      *
-     * e.g:	$height = $map->getHeight();
+     * e.g:    $height = $map->getHeight();
      *
      * @return int
      */
@@ -360,7 +350,7 @@ class Map
     /**
      * Returns the set width of the map
      *
-     * e.g:	$width = $map->getWidth();
+     * e.g:    $width = $map->getWidth();
      *
      * @return int
      */
@@ -372,7 +362,7 @@ class Map
     /**
      * Returns the set language of the map;
      *
-     * e.g:	$language = $map->getLanguage();
+     * e.g:    $language = $map->getLanguage();
      *
      * @return string
      */
@@ -384,7 +374,7 @@ class Map
     /**
      * Returns the an array of map feature stylings.
      *
-     * e.g:	$styling = $map->getFeatureStyling();
+     * e.g:    $styling = $map->getFeatureStyling();
      *
      * @return array
      */
@@ -394,12 +384,20 @@ class Map
     }
 
     /**
+     * @return Path|null
+     */
+    public function getMapPath(): ?Path
+    {
+        return $this->path;
+    }
+
+    /**
      * Checks whether the url is within the allowed length
      *
      * @param string $string
      * @return boolean
      */
-    public function validLength($string): bool
+    protected function validLength($string): bool
     {
         return (strlen($string) <= $this::MAX_URL_LENGTH);
     }

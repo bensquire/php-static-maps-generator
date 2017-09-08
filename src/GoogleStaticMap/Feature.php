@@ -94,19 +94,10 @@ class Feature
      * @return $this
      * @throws \Exception
      */
-    public function setStyle($style)
+    public function setStyle(\GoogleStaticMap\Feature\Styling $style)
     {
-        if ($style instanceof \GoogleStaticMap\FeatureStyling) {
-            $this->style = $style;
-            return $this;
-        }
-
-        if (is_array($style)) {
-            $this->style = new \GoogleStaticMap\FeatureStyling($style);
-            return $this;
-        }
-
-        throw new \Exception('Invalid type passed to Map Feature Styling.');
+        $this->style = $style;
+        return $this;
     }
 
     /**
@@ -129,9 +120,9 @@ class Feature
     /**
      * Returns the feature being edited
      *
-     * @return string
+     * @return null|string
      */
-    public function getFeature(): string
+    public function getFeature(): ?string
     {
         return $this->feature;
     }
@@ -139,9 +130,9 @@ class Feature
     /**
      * Returns the features styling object.
      *
-     * @return \GoogleStaticMap\FeatureStyling
+     * @return null|\GoogleStaticMap\Feature\Styling
      */
-    public function getStyle(): ?\GoogleStaticMap\FeatureStyling
+    public function getStyle(): ?\GoogleStaticMap\Feature\Styling
     {
         return $this->style;
     }
@@ -149,9 +140,9 @@ class Feature
     /**
      * Returns the element of the feature that's being styled
      *
-     * @return string
+     * @return null|string
      */
-    public function getElement(): string
+    public function getElement(): ?string
     {
         return $this->element;
     }
@@ -163,10 +154,10 @@ class Feature
      */
     public function build(): string
     {
-        if ($this->style instanceof \GoogleStaticMap\FeatureStyling) {
-            $styles = $this->style->build();
+        if ($this->style instanceof \GoogleStaticMap\Feature\Styling) {
+            $styles = $this->getStyle()->build();
         }
 
-        return 'style=feature:' . $this->feature . $this::SEPARATOR . 'element:' . $this->element . ((isset($styles) ? $this::SEPARATOR . $styles : ''));
+        return 'style=feature:' . $this->getFeature() . $this::SEPARATOR . 'element:' . $this->getElement() . ((isset($styles) ? $this::SEPARATOR . $styles : ''));
     }
 }

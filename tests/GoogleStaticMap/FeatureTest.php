@@ -3,7 +3,8 @@ use GoogleStaticMap\Feature;
 
 class FeatureTest extends PHPUnit_Framework_TestCase
 {
-    public function testConstructor() {
+    public function testConstructor()
+    {
         new Feature([
             'feature' => 'administrative',
             'element'=> 'geometry',
@@ -28,7 +29,7 @@ class FeatureTest extends PHPUnit_Framework_TestCase
      */
     public function testSetStyle()
     {
-        $featureStyling = new \GoogleStaticMap\FeatureStyling();
+        $featureStyling = new \GoogleStaticMap\Feature\Styling();
 
         $object = new Feature();
         $this->assertInstanceOf('\GoogleStaticMap\Feature', $object->setStyle($featureStyling));
@@ -47,24 +48,32 @@ class FeatureTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\GoogleStaticMap\Feature', $object->setElement('geometry2'));
     }
 
-    public function testGetFeature() {
+    public function testGetFeature()
+    {
         $object = new Feature();
         $object->setFeature('administrative');
         $this->assertEquals('administrative', $object->getFeature());
-
     }
 
-    public function testGetStyle() {
+    public function testGetStyle()
+    {
         $object = new Feature();
         $this->assertNull($object->getStyle());
 
         $object->setStyle([]);
-        $this->assertInstanceOf('\GoogleStaticMap\FeatureStyling', $object->getStyle());
+        $this->assertInstanceOf('\GoogleStaticMap\Feature\Styling', $object->getStyle());
     }
 
-    public function testGetElement() {
+    public function testGetElement()
+    {
         $object = new Feature();
         $object->setElement('geometry');
         $this->assertEquals('geometry', $object->getElement());
+    }
+
+    public function testBuild()
+    {
+        $object = new \GoogleStaticMap\Feature();
+        $this->assertEquals('style=feature:|element:', $object->build());
     }
 }

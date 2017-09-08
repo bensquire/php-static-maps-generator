@@ -8,15 +8,14 @@ $oStaticMap->setCenter('London,UK')
         ->setWidth(300)
         ->setZoom(8)
         ->setMapType('hybrid')
-        ->setFormat('png');
-
-$oStaticMap->addMarker([
-    'color' => 'blue',
-    'size' => 'mid',
-    'longitude' => -0.062004,
-    'latitude' => 51.462564,
-    'label' => 'C'
-]);
+        ->setFormat('png')
+        ->addMarker(new \GoogleStaticMap\Marker([
+            'color' => 'blue',
+            'size' => 'mid',
+            'longitude' => -0.062004,
+            'latitude' => 51.462564,
+            'label' => 'C'
+        ]));
 
 $oMarker = new \GoogleStaticMap\Marker();
 $oMarker->setColor('red')

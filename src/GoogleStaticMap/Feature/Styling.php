@@ -1,5 +1,5 @@
 <?php
-namespace GoogleStaticMap;
+namespace GoogleStaticMap\Feature;
 
 /**
  * @author Ben Squire <b.squire@gmail.com>
@@ -13,7 +13,7 @@ namespace GoogleStaticMap;
  *
  * @see https://github.com/bensquire/php-static-maps-generator
  */
-class FeatureStyling
+class Styling
 {
     public const SEPARATOR = '|';
 

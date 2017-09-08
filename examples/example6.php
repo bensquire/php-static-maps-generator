@@ -21,18 +21,18 @@ $oPath->setColor('0x00000000')
         ->setFillColor('0xFFFF0033');
 
 //Create Point
-$oPathPoint = new \GoogleStaticMap\PathPoint();
+$oPathPoint = new \GoogleStaticMap\Path\Point();
 $oPathPoint->setLatitude(51.855376)
         ->setLongitude(-0.576904);
 $oPath->addPoint($oPathPoint);
 
 //Create Another Path Point
-$oPathPoint2 = new \GoogleStaticMap\PathPoint();
+$oPathPoint2 = new \GoogleStaticMap\Path\Point();
 $oPathPoint2->setLocation('Wembley, UK');
 $oPath->addPoint($oPathPoint2);
 
 //Create Another Path Point
-$oPathPoint3 = new \GoogleStaticMap\PathPoint();
+$oPathPoint3 = new \GoogleStaticMap\Path\Point();
 $oPathPoint3->setLocation('Barnet, UK');
 $oPath->addPoint($oPathPoint3);
 

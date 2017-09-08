@@ -1,5 +1,5 @@
 <?php
-namespace GoogleStaticMap;
+namespace GoogleStaticMap\Path;
 
 /**
  * @author Ben Squire <b.squire@gmail.com>
@@ -12,15 +12,11 @@ namespace GoogleStaticMap;
  *
  * @see https://github.com/bensquire/php-static-maps-generator
  */
-class PathPoint
+class Point
 {
     protected $longitude = null;
     protected $latitude = null;
     protected $location = null;
-
-    public function __construct($aParams = [])
-    {
-    }
 
     /**
      * Set the longitude of the map point.
@@ -52,7 +48,7 @@ class PathPoint
      * Set a string location of the map point.
      *
      * @param string $location
-     * @return \GoogleStaticMap\PathPoint
+     * @return \GoogleStaticMap\Path\Point
      * @throws \Exception
      */
     public function setLocation(string $location)
@@ -70,7 +66,7 @@ class PathPoint
      *
      * @return float
      */
-    public function getLongitude(): float
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
@@ -80,7 +76,7 @@ class PathPoint
      *
      * @return float
      */
-    public function getLatitude(): float
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
@@ -90,7 +86,7 @@ class PathPoint
      *
      * @return string
      */
-    public function getLocation(): string
+    public function getLocation(): ?string
     {
         return $this->location;
     }
