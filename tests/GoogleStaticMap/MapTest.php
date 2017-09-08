@@ -144,7 +144,7 @@ class MapTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($path, $object->getMapPath($path));
     }
 
-    public function testBuildSource()
+    public function testBuildSourceMatchesToString()
     {
         $path = new \GoogleStaticMap\Path([
             'weight' => 2
@@ -167,6 +167,7 @@ class MapTest extends PHPUnit_Framework_TestCase
             ->setHeight(480)
             ->setWidth(480);
 
-        $object->buildSource();
+        $result = $object->buildSource();
+        $this->assertEquals($result, $object->__toString());
     }
 }

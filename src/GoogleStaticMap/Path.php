@@ -1,5 +1,6 @@
 <?php
 namespace GoogleStaticMap;
+
 use GoogleStaticMap\Path\Point;
 
 /**
