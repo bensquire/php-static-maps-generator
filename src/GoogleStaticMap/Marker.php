@@ -25,29 +25,6 @@ class Marker
     protected $size = '';
     protected $customIcon = ''; //TODO implement
 
-    public function __construct($params = [])
-    {
-        if (isset($params['color'])) {
-            $this->setColor($params['color']);
-        }
-
-        if (isset($params['longitude'])) {
-            $this->setLongitude($params['longitude']);
-        }
-
-        if (isset($params['latitude'])) {
-            $this->setLatitude($params['latitude']);
-        }
-
-        if (isset($params['label'])) {
-            $this->setLabel($params['label']);
-        }
-
-        if (isset($params['size'])) {
-            $this->setSize($params['size']);
-        }
-    }
-
     /**
      * Output the marker url string
      *

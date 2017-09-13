@@ -55,21 +55,6 @@ class Feature
     protected $element = null;
     protected $style = null;
 
-    public function __construct(array $params = [])
-    {
-        if (isset($params['feature'])) {
-            $this->setFeature($params['feature']);
-        }
-
-        if (isset($params['element'])) {
-            $this->setElement($params['element']);
-        }
-
-        if (isset($params['style'])) {
-            $this->setStyle($params['style']);
-        }
-    }
-
     /**
      * Sets the type of feature the object represents
      *

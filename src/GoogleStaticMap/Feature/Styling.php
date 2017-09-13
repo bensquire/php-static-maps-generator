@@ -21,35 +21,9 @@ class Styling
     protected $lightness = null;
     protected $saturation = null;
     protected $hue = null;
-    protected $isVisible = true;
+    protected $visibility = 'on';
     protected $invertLightness = false;
-
-    public function __construct($params = [])
-    {
-        if (isset($params['gamma'])) {
-            $this->setGamma($params['gamma']);
-        }
-
-        if (isset($params['lightness'])) {
-            $this->setLightness($params['lightness']);
-        }
-
-        if (isset($params['saturation'])) {
-            $this->setSaturation($params['saturation']);
-        }
-
-        if (isset($params['hue'])) {
-            $this->setHue($params['hue']);
-        }
-
-        if (isset($params['invert_lightness'])) {
-            $this->setInvertLightness($params['invert_lightness']);
-        }
-
-        if (isset($params['visibility'])) {
-            $this->setVisibility($params['visibility']);
-        }
-    }
+    protected $validVisibleModes = ['on', 'off', 'simplified'];
 
     /**
      * Sets the gamma value of the elements styling
@@ -95,7 +69,7 @@ class Styling
     public function setSaturation(int $saturation)
     {
         if ($saturation > 100 || $saturation < -100) {
-            throw new \Exception('Invalid Saturation Styling Paramater Passed ' . $saturation);
+            throw new \Exception('Invalid Saturation Styling Parameter Passed ' . $saturation);
         }
 
         $this->saturation = $saturation;
@@ -136,22 +110,17 @@ class Styling
     /**
      * Determines if an element should be visible, or simplified (complexity decided by google).
      *
-     * @param $visibility
+     * @param string $visibility
      * @return $this
+     * @throws \Exception
      */
-    public function setVisibility($visibility)
+    public function setVisibility(string $visibility)
     {
-        if ($visibility === true || $visibility === 'on') {
-            $this->isVisible = 'on';
-            return $this;
+        if (!in_array($visibility, $this->validVisibleModes, true)) {
+            throw new \Exception('Must be one of ' . implode($this->validVisibleModes, ', ') . '.');
         }
 
-        if ($visibility === false || $visibility === 'off') {
-            $this->isVisible = 'off';
-            return $this;
-        }
-
-        $this->isVisible = 'simplified';
+        $this->visibility = $visibility;
         return $this;
     }
 
@@ -206,13 +175,11 @@ class Styling
     }
 
     /**
-     * Returns the visibility status of the element
-     *
-     * @return bool
+     * @return string
      */
-    public function getVisibility(): bool
+    public function getVisible(): string
     {
-        return $this->isVisible;
+        return $this->visibility;
     }
 
     /**
@@ -240,13 +207,8 @@ class Styling
             $url[] = 'hue:0x' . $this->hue;
         }
 
-        if ($this->isVisible !== true) {
-            $url[] = 'visibility:false';
-        }
-
-        if ($this->invertLightness !== false) {
-            $url[] = 'inverse_lightness:true';
-        }
+        $url[] = 'visibility:' . ($this->visibility);
+        $url[] = 'invert_lightness:' . ($this->invertLightness ? 'true' : 'false');
 
         return implode($this::SEPARATOR, $url);
     }

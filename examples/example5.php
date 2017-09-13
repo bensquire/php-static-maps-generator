@@ -2,30 +2,29 @@
 
 include('../vendor/autoload.php');
 
-$oStaticMap = new \GoogleStaticMap\Map();
-$oStaticMap->setHeight(600)
-        ->setWidth(600)
-        ->setMapType('hybrid')
-        ->setFormat('jpg')
-        ->setScale(2);
+/*
+ * Generates a 600x600 pixel google map, doubly scaled. Additionally draw a path between 2 points.
+ */
 
-//Create Path Object and set styling
-$oPath = new \GoogleStaticMap\Path();
-$oPath->setColor('red')
-        ->setWeight(5);
+$pathPoint = new \GoogleStaticMap\Path\Point();
+$pathPoint->setLatitude(51.855376);
+$pathPoint->setLongitude(-0.576904);
 
-//Create Path Point
-$oPathPoint = new \GoogleStaticMap\Path\Point();
-$oPathPoint->setLatitude(51.855376)
-        ->setLongitude(-0.576904);
-$oPath->addPoint($oPathPoint);
+$pathPoint2 = new \GoogleStaticMap\Path\Point();
+$pathPoint2->setLocation('Wembley, UK');
 
-//Create Another Path Point
-$oPathPoint2 = new \GoogleStaticMap\Path\Point();
-$oPathPoint2->setLocation('Wembley, UK');
-$oPath->addPoint($oPathPoint2);
+$path = new \GoogleStaticMap\Path();
+$path->setColor('red');
+$path->setWeight(5);
+$path->addPoint($pathPoint);
+$path->addPoint($pathPoint2);
 
-//Add Points to Map
-$oStaticMap->setMapPath($oPath);
+$map = new \GoogleStaticMap\Map();
+$map->setHeight(600);
+$map->setWidth(600);
+$map->setMapType('hybrid');
+$map->setFormat('jpg');
+$map->setScale(2);
+$map->setMapPath($path);
 
-echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() * 2 . '" width="' . $oStaticMap->getWidth() * 2 . '" />';
+echo '<img src="' . $map . '" height="' . $map->getHeight() * 2 . '" width="' . $map->getWidth() * 2 . '" />';

@@ -32,6 +32,9 @@ echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() . '" w
     /usr/local/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run
 
 
+## Google Static Maps API Documentation
+    https://developers.google.com/maps/documentation/static-maps/intro
+
 ## Requirements:
 This library requires no additional software beyond  a functional version of PHP
 7.1 (or greater) and if you wish to retrieve the Map image, a working Internet

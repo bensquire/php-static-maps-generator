@@ -37,25 +37,6 @@ class Path
     protected $colour = null;
     protected $fillColour = null;
 
-    public function __construct(array $params = [])
-    {
-        if (isset($params['weight'])) {
-            $this->setWeight($params['weight']);
-        }
-
-        if (isset($params['color'])) {
-            $this->setColor($params['color']);
-        }
-
-        if (isset($params['fill_color'])) {
-            $this->setFillColor($params['fill_color']);
-        }
-
-        if (isset($params['point'])) {
-            $this->addPoint($params['point']);
-        }
-    }
-
     /**
      * Set the weight of the map path line in px
      *

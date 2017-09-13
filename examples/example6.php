@@ -3,40 +3,32 @@
 include('../vendor/autoload.php');
 
 /*
- * Generates a 600x600 pixel google map, centered over 3 path points, 1 defined
- * using coordinates, the other 2 using a string. The path is filled, as there
- * are more than 2 with a transparent yellow.
+ * Generates a 600x600 pixel google map, doubly scaled. Additionally draw a path between 3 different locations.
  */
-$oStaticMap = new \GoogleStaticMap\Map();
-$oStaticMap->setHeight(600)
-        ->setWidth(600)
-        ->setMapType('hybrid')
-        ->setFormat('png8');
 
+$pathPoint = new \GoogleStaticMap\Path\Point();
+$pathPoint->setLatitude(51.855376);
+$pathPoint->setLongitude(-0.576904);
 
-//Create Path Object and set styling
-$oPath = new \GoogleStaticMap\Path();
-$oPath->setColor('0x00000000')
-        ->setWeight(5)
-        ->setFillColor('0xFFFF0033');
+$pathPoint2 = new \GoogleStaticMap\Path\Point();
+$pathPoint2->setLocation('Wembley, UK');
 
-//Create Point
-$oPathPoint = new \GoogleStaticMap\Path\Point();
-$oPathPoint->setLatitude(51.855376)
-        ->setLongitude(-0.576904);
-$oPath->addPoint($oPathPoint);
+$pathPoint3 = new \GoogleStaticMap\Path\Point();
+$pathPoint3->setLocation('Barnet, UK');
 
-//Create Another Path Point
-$oPathPoint2 = new \GoogleStaticMap\Path\Point();
-$oPathPoint2->setLocation('Wembley, UK');
-$oPath->addPoint($oPathPoint2);
+$path = new \GoogleStaticMap\Path();
+$path->setColor('0x00000000');
+$path->setWeight(5);
+$path->setFillColor('0xFFFF0033');
+$path->addPoint($pathPoint);
+$path->addPoint($pathPoint2);
+$path->addPoint($pathPoint3);
 
-//Create Another Path Point
-$oPathPoint3 = new \GoogleStaticMap\Path\Point();
-$oPathPoint3->setLocation('Barnet, UK');
-$oPath->addPoint($oPathPoint3);
+$map = new \GoogleStaticMap\Map();
+$map->setHeight(600);
+$map->setWidth(600);
+$map->setMapType('hybrid');
+$map->setFormat('png8');
+$map->setMapPath($path);
 
-//Add Points to Map
-$oStaticMap->setMapPath($oPath);
-
-echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() . '" width="' . $oStaticMap->getWidth() . '" />';
+echo '<img src="' . $map . '" height="' . $map->getHeight() . '" width="' . $map->getWidth() . '" />';

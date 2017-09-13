@@ -2,28 +2,33 @@
 
 include('../vendor/autoload.php');
 
-$oStaticMap = new \GoogleStaticMap\Map();
-$oStaticMap->setCenter('London,UK')
-        ->setHeight(300)
-        ->setWidth(300)
-        ->setZoom(8)
-        ->setMapType('hybrid')
-        ->setFormat('png')
-        ->addMarker(new \GoogleStaticMap\Marker([
-            'color' => 'blue',
-            'size' => 'mid',
-            'longitude' => -0.062004,
-            'latitude' => 51.462564,
-            'label' => 'C'
-        ]));
+/*
+ * Generates a 300x300 pixel google map, centred over London at a zoom level of 8. Additionally display 2 markers
+ * with different labels.
+ */
 
-$oMarker = new \GoogleStaticMap\Marker();
-$oMarker->setColor('red')
-        ->setSize('large')
-        ->setLongitude(-0.576904)
-        ->setLatitude(51.855376)
-        ->setLabel('B');
+$marker = new \GoogleStaticMap\Marker();
+$marker->setColor('blue');
+$marker->setSize('mid');
+$marker->setLongitude(-0.062004);
+$marker->setLatitude(51.462564);
+$marker->setLabel('C');
 
-$oStaticMap->addMarker($oMarker);
+$marker2 = new \GoogleStaticMap\Marker();
+$marker2->setColor('red');
+$marker2->setSize('large');
+$marker2->setLongitude(-0.576904);
+$marker2->setLatitude(51.855376);
+$marker2->setLabel('B');
 
-echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() . '" width="' . $oStaticMap->getWidth() . '" />';
+$map = new \GoogleStaticMap\Map();
+$map->setCenter('London,UK');
+$map->setHeight(300);
+$map->setWidth(300);
+$map->setZoom(8);
+$map->setMapType('hybrid');
+$map->setFormat('png');
+$map->addMarker($marker);
+$map->addMarker($marker2);
+
+echo '<img src="' . $map . '" height="' . $map->getHeight() . '" width="' . $map->getWidth() . '" />';

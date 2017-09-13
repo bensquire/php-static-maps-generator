@@ -2,21 +2,26 @@
 
 include('../vendor/autoload.php');
 
-$featureStyling = new \GoogleStaticMap\Feature([
-    'feature' => 'all',
-    'element' => 'all',
-    'style' => new \GoogleStaticMap\Feature\Styling([
-        'hue' => '#006400', //Green features
-        'lightness' => 50  //Very light...
-    ])
-]);
+/*
+ * Generates a 300x232 pixel google map, centred over London at a zoom level of 8. Additionally display all features
+ * lightened and dark green.
+ */
 
-$oStaticMap = new \GoogleStaticMap\Map();
-$oStaticMap->setCenter('London,UK')
-        ->setHeight(300)
-        ->setWidth(232)
-        ->setZoom(8)
-        ->setFormat('jpg')
-        ->addFeature($featureStyling);
+$styling = new \GoogleStaticMap\Feature\Styling();
+$styling->setHue('#006400');
+$styling->setLightness(50);
 
-echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() . '" width="' . $oStaticMap->getWidth() . '" />';
+$featureStyling = new \GoogleStaticMap\Feature();
+$featureStyling->setFeature('all');
+$featureStyling->setElement('all');
+$featureStyling->setStyle($styling);
+
+$map = new \GoogleStaticMap\Map();
+$map->setCenter('London,UK');
+$map->setHeight(300);
+$map->setWidth(232);
+$map->setZoom(8);
+$map->setFormat('jpg');
+$map->addFeature($featureStyling);
+
+echo '<img src="' . $map . '" height="' . $map->getHeight() . '" width="' . $map->getWidth() . '" />';
