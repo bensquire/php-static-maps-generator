@@ -6,13 +6,25 @@ Using simple OO methods, this project will build the URL which can be used in an
 
 ## Example Code
 ```
-$oStaticMap = new \GoogleStaticMap\Map();
-$oStaticMap->setCenter("London,UK");
-$oStaticMap->setHeight(300);
-$oStaticMap->setWidth(232);
-$oStaticMap->setZoom(8);
-$oStaticMap->setFormat("jpg");
-echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() . '" width="' . $oStaticMap->getWidth() . '" />';
+$styling = new \GoogleStaticMap\Feature\Styling();
+$styling->setHue('#006400');
+$styling->setLightness(50);
+
+$featureStyling = new \GoogleStaticMap\Feature();
+$featureStyling->setFeature('all');
+$featureStyling->setElement('all');
+$featureStyling->setStyle($styling);
+
+$map = new \GoogleStaticMap\Map();
+$map->setCenter('London,UK');
+$map->setHeight(300);
+$map->setWidth(232);
+$map->setZoom(8);
+$map->setFormat('jpg');
+$map->addFeature($featureStyling);
+
+echo '<img src="' . $map . '" height="' . $map->getHeight() . '" width="' . $map->getWidth() . '" />';
+
 ```
 
 ## Example Output:
