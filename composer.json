@@ -1,0 +1,36 @@
+{
+    "name": "bensquire/php-static-maps-generator",
+    "type": "library",
+    "description": "A PHP library to generate Google Static Map Links.",
+    "keywords": [
+        "google",
+        "maps",
+        "php",
+        "generator"
+    ],
+    "homepage": "https://github.com/bensquire/php-static-maps-generator",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ben Squire",
+            "email": "b.squire@gmail.com",
+            "homepage": "https://github.com/bensquire"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/bensquire/php-static-maps-generator/issues",
+        "wiki": "https://github.com/bensquire/php-static-maps-generator/wiki"
+    },
+    "require": {
+        "php": ">=7.1.0",
+        "ext-hash": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "GoogleStaticMap\\": "src/GoogleStaticMap"
+        }
+    }
+}

@@ -1,23 +1,16 @@
 <?php
 
+include('../vendor/autoload.php');
+
 /*
- * Generates a 300x232 pixel google map, centered over london, using an HTTPS
- * connection
+ * Generates a 300x232 pixel google map, centred over London at a zoom level of 8, using HTTPS.
  */
 
-include('../googlestaticmap.php');
-include('../googlestaticmapfeature.php');
-include('../googlestaticmapfeaturestyling.php');
-include('../googlestaticmapmarker.php');
-include('../googlestaticmappath.php');
-include('../googlestaticmappathpoint.php');
+$map = new \GoogleStaticMap\Map();
+$map->setCenter('London,UK');
+$map->setHeight(300);
+$map->setWidth(232);
+$map->setZoom(8);
+$map->setHttps(true);
 
-$oStaticMap = new GoogleStaticMap();
-$oStaticMap->setCenter("London,UK")
-		->setHeight(300)
-		->setWidth(232)
-		->setZoom(8)
-		->setHttps(true);
-
-echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() . '" width="' . $oStaticMap->getWidth() . '" />';
-?>
+echo '<img src="' . $map . '" height="' . $map->getHeight() . '" width="' . $map->getWidth() . '" />';

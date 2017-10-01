@@ -1,41 +1,30 @@
 <?php
 
+include('../vendor/autoload.php');
+
 /*
- * Generates a 600x600 pixel google map, centered over 2 path points, 1 defined
- * using coordinates, the other using a string. Scale set to 2 (double resolution)
+ * Generates a 600x600 pixel google map, doubly scaled. Additionally draw a path between 2 points.
  */
 
-include('../googlestaticmap.php');
-include('../googlestaticmapfeature.php');
-include('../googlestaticmapfeaturestyling.php');
-include('../googlestaticmapmarker.php');
-include('../googlestaticmappath.php');
-include('../googlestaticmappathpoint.php');
+$pathPoint = new \GoogleStaticMap\Path\Point();
+$pathPoint->setLatitude(51.855376);
+$pathPoint->setLongitude(-0.576904);
 
-$oStaticMap = new GoogleStaticMap();
-$oStaticMap->setHeight(600)
-		->setWidth(600)
-		->setMapType('hybrid')
-		->setFormat('jpg')
-		->setScale(2);
+$pathPoint2 = new \GoogleStaticMap\Path\Point();
+$pathPoint2->setLocation('Wembley, UK');
 
-//Create Path Object and set styling
-$oPath = new GoogleStaticMapPath();
-$oPath->setColor('red')
-		->setWeight(5);
+$path = new \GoogleStaticMap\Path();
+$path->setColor('red');
+$path->setWeight(5);
+$path->addPoint($pathPoint);
+$path->addPoint($pathPoint2);
 
-//Create Path Point
-$oPathPoint = new GoogleStaticMapPathPoint();
-$oPathPoint->setLatitude(51.855376)
-		->setLongitude(-0.576904);
-$oPath->setPoint($oPathPoint);
+$map = new \GoogleStaticMap\Map();
+$map->setHeight(600);
+$map->setWidth(600);
+$map->setMapType('hybrid');
+$map->setFormat('jpg');
+$map->setScale(2);
+$map->setMapPath($path);
 
-//Create Another Path Point
-$oPathPoint2 = new GoogleStaticMapPathPoint();
-$oPathPoint2->setLocation('Wembley, UK');
-$oPath->setPoint($oPathPoint2);
-
-//Add Points to Map
-$oStaticMap->setMapPath($oPath);
-
-echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() * 2 . '" width="' . $oStaticMap->getWidth() * 2 . '" />';
+echo '<img src="' . $map . '" height="' . $map->getHeight() * 2 . '" width="' . $map->getWidth() * 2 . '" />';
