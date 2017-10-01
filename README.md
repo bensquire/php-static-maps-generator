@@ -5,7 +5,7 @@ Using simple OO methods, this project will build the URL which can be used in an
 
 
 ## Example Code
-```
+```php
 $styling = new \GoogleStaticMap\Feature\Styling();
 $styling->setHue('#006400');
 $styling->setLightness(50);
