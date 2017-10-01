@@ -7,20 +7,11 @@ Using simple OO methods, this project will build the URL which can be used in an
 ## Example Code
 ```
 $oStaticMap = new \GoogleStaticMap\Map();
-$oStaticMap->setCenter("London,UK")
-    ->setHeight(300)
-    ->setWidth(232)
-    ->setZoom(8)
-    ->setFormat("jpg")
-    ->setFeatureStyling(array(
-        "feature" => "all",
-        "element" => "all",
-        "style" => array(
-            "hue" => "#006400",
-            "lightness" => 50
-        )
-    ));
-
+$oStaticMap->setCenter("London,UK");
+$oStaticMap->setHeight(300);
+$oStaticMap->setWidth(232);
+$oStaticMap->setZoom(8);
+$oStaticMap->setFormat("jpg");
 echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() . '" width="' . $oStaticMap->getWidth() . '" />';
 ```
 
@@ -36,6 +27,6 @@ echo '<img src="' . $oStaticMap . '" height="' . $oStaticMap->getHeight() . '" w
     https://developers.google.com/maps/documentation/static-maps/intro
 
 ## Requirements:
-This library requires no additional software beyond  a functional version of PHP
+This library requires no additional software beyond a functional version of PHP
 7.1 (or greater) and if you wish to retrieve the Map image, a working Internet
 connection.
