@@ -1,6 +1,6 @@
 
 
-[![Build Status](https://travis-ci.org/bensquire/php-static-maps-generator#)](https://travis-ci.org/bensquire/php-static-maps-generator#)
+[![Build Status](https://travis-ci.org/bensquire/php-static-maps-generator.svg?branch=master)](https://travis-ci.org/bensquire/php-static-maps-generator)
 
 
 # php-static-maps-generator
