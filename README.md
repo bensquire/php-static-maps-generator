@@ -1,3 +1,8 @@
+
+
+[![Build Status](https://travis-ci.org/bensquire/php-static-maps-generator#)](https://travis-ci.org/bensquire/php-static-maps-generator#)
+
+
 # php-static-maps-generator
 A PHP library to generate Google Static Map Links. The Google Static Maps Library (V2) is a free service, [made available by Google] (https://developers.google.com/maps/documentation/staticmaps/).
 
