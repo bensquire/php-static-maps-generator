@@ -21,8 +21,9 @@ class GoogleStaticMapMarker {
 	protected $sLabel = '';
 	protected $sColor = '';
 	protected $sSize = '';
-	protected $sCustomIcon = ''; //TODO implement
-
+	protected $sCustomIcon = ""; 
+	protected $sCustomIconShadow = ""; 
+	
 	public function __construct($aParams = array()) {
 		if (isset($aParams['color'])) {
 			$this->setColor($aParams['color']);
@@ -42,6 +43,14 @@ class GoogleStaticMapMarker {
 
 		if (isset($aParams['size'])) {
 			$this->setSize($aParams['size']);
+		}
+		
+		if (isset($aParams['icon'])) {
+			$this->setIconUrl($aParams['icon']);
+		}
+		
+		if (isset($aParams['shadow'])) {
+			$this->setIconShadow($aParams['shadow']);
 		}
 	}
 
@@ -113,6 +122,32 @@ class GoogleStaticMapMarker {
 	}
 
 	/**
+	 * Set marker icon from URL
+	 *
+	 * @return string
+	 */
+	
+	public function setIconUrl($Url)
+	{
+		$this->sCustomIcon = $Url;
+
+		return $this;
+	}
+	
+	/**
+	 * Set marker icon
+	 *
+	 * @return string
+	 */
+	
+	public function setIconShadow($Shadow=true)
+	{
+		$this->sCustomIconShadow = $Shadow;
+
+		return $this;
+	}
+	
+	/**
 	 * Return the marker longitude
 	 *
 	 * @return string
@@ -156,18 +191,47 @@ class GoogleStaticMapMarker {
 	public function getSize() {
 		return $this->sSize;
 	}
-
+	
+	/**
+	 * Return the marker url
+	 *
+	 * @return string
+	 */
+	
+	public function getIconUrl()
+	{
+		return $this->sCustomIcon;
+	}
+	
+	/**
+	 * Return the marker url
+	 *
+	 * @return string
+	 */
+	
+	public function getIconShadow()
+	{
+		return $this->sCustomIconShadow;
+	}
+	
 	/**
 	 * Return the marker url string
 	 *
 	 * @return string
 	 */
 	public function build() {
+		
+
 		return 'markers=' .
+				((!empty($this->sCustomIcon)) ? 'icon:' . urlencode($this->sCustomIcon . $this::SEPERATOR) : '') .
+				
 				((!empty($this->sColor)) ? 'color:' . urlencode($this->sColor . $this::SEPERATOR) : '') .
 				((!empty($this->sLabel)) ? 'label:' . urlencode($this->sLabel . $this::SEPERATOR) : '') .
 				((!empty($this->sSize)) ? 'size:' . urlencode($this->sSize . $this::SEPERATOR) : '') .
-				$this->fLatitude . ',' . $this->fLongitude;
+				$this->fLatitude . ',' . $this->fLongitude;	
+
+		
+
 	}
 
 }
