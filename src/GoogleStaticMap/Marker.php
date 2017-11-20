@@ -17,13 +17,40 @@ class Marker
 {
     public const SEPARATOR = '|';
 
+    /**
+     * @var array
+     */
     protected $validMarkerSizes = ['tiny', 'mid', 'small'];
+
+    /**
+     * @var string
+     */
     protected $longitude = '';
+
+    /**
+     * @var string
+     */
     protected $latitude = '';
+
+    /**
+     * @var string
+     */
     protected $label = '';
+
+    /**
+     * @var string
+     */
     protected $colour = '';
+
+    /**
+     * @var string
+     */
     protected $size = '';
-    protected $customIcon = ''; //TODO implement
+
+    /**
+     * @var ?string
+     */
+    protected $customIcon = null;
 
     /**
      * Output the marker url string
@@ -99,6 +126,16 @@ class Marker
     }
 
     /**
+     * @param string $url
+     * @return Marker
+     */
+    public function setIconUrl(string $url)
+    {
+        $this->customIcon = $url;
+        return $this;
+    }
+
+    /**
      * Return the marker longitude
      *
      * @return float
@@ -149,6 +186,13 @@ class Marker
     }
 
     /**
+     * @return null|string
+     */
+    public function getIconUrl(): ?string
+    {
+        return $this->customIcon;
+    }
+    /**
      * Return the marker url string
      *
      * @return string
@@ -156,6 +200,7 @@ class Marker
     public function build(): string
     {
         return 'markers=' .
+            ((!empty($this->customIcon)) ? 'icon:' . urlencode($this->customIcon . $this::SEPARATOR) : '') .
             ((!empty($this->colour)) ? 'color:' . urlencode($this->colour . $this::SEPARATOR) : '') .
             ((!empty($this->label)) ? 'label:' . urlencode($this->label . $this::SEPARATOR) : '') .
             ((!empty($this->size)) ? 'size:' . urlencode($this->size . $this::SEPARATOR) : '') .

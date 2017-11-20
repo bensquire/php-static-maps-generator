@@ -8,11 +8,9 @@ include('../vendor/autoload.php');
  */
 
 $marker = new \GoogleStaticMap\Marker();
-$marker->setColor('blue');
-$marker->setSize('mid');
 $marker->setLongitude(-0.062004);
 $marker->setLatitude(51.462564);
-$marker->setLabel('C');
+$marker->setIconUrl('https://goo.gl/5y3S82');
 
 $marker2 = new \GoogleStaticMap\Marker();
 $marker2->setColor('red');

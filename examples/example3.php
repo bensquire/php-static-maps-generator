@@ -12,7 +12,7 @@ $marker->setColor('blue');
 $marker->setSize('mid');
 $marker->setLongitude(-0.062004);
 $marker->setLatitude(51.462564);
-$marker->setLabel('b');
+$marker->setLabel('D');
 
 $map = new \GoogleStaticMap\Map();
 $map->setCenter('London,UK');
