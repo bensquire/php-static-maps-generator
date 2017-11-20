@@ -38,6 +38,13 @@ class MarkerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('tiny', $object->getSize());
     }
 
+    public function testSetIconUrl()
+    {
+        $object = new \GoogleStaticMap\Marker();
+        $this->assertEquals($object, $object->setIconUrl('https://www.foo.com/'));
+        $this->assertEquals('https://www.foo.com/', $object->getIconUrl());
+    }
+
     public function testBuild()
     {
         $object = new \GoogleStaticMap\Marker();
@@ -46,7 +53,8 @@ class MarkerTest extends PHPUnit_Framework_TestCase
         $object->setLabel('foo');
         $object->setLatitude(1.0);
         $object->setLongitude(2.0);
+        $object->setIconUrl('https://www.foo.com/');
 
-        $this->assertEquals('markers=color:red%7Clabel:foo%7Csize:tiny%7C1,2', $object->build());
+        $this->assertEquals('markers=icon:https%3A%2F%2Fwww.foo.com%2F%7Ccolor:red%7Clabel:foo%7Csize:tiny%7C1,2', $object->build());
     }
 }
