@@ -2,7 +2,6 @@
 
 class MarkerTest extends PHPUnit_Framework_TestCase
 {
-
     public function testSetGetLongitude()
     {
         $object = new \GoogleStaticMap\Marker();
