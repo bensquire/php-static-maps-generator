@@ -40,7 +40,7 @@ class Map
     protected $validScales = [1, 2, 4]; //4 is business only
     protected $isHttps = false;
     protected $apiKey = null;  //TODO Finishing Adding
-    protected $centre = null;  //{latitude,longitude} or ('city hall, new york, ny')
+    protected $center = null;  //{latitude,longitude} or ('city hall, new york, ny')
     protected $zoomLevel = 10;
     protected $height = 200;
     protected $width = 200;
@@ -80,7 +80,7 @@ class Map
     }
 
     /**
-     * Sets the whether we should use https to retrieve the map
+     * Sets whether we should use https to retrieve the map
      *
      * @param bool $isHttps
      * @return $this
@@ -118,7 +118,7 @@ class Map
      */
     public function setCenter(string $center)
     {
-        $this->centre = $center;
+        $this->center = $center;
         return $this;
     }
 
@@ -288,7 +288,7 @@ class Map
      */
     public function getCenter(): ?string
     {
-        return $this->centre;
+        return $this->center;
     }
 
     /**
@@ -412,7 +412,7 @@ class Map
     {
         $url = [];
 
-        $url[] = 'center=' . urlencode($this->centre);
+        $url[] = 'center=' . urlencode($this->center);
         $url[] = 'zoom=' . $this->zoomLevel;
         $url[] = 'language=' . $this->languageCode;
         $url[] = 'maptype=' . $this->mapType;
